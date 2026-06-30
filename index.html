@@ -194,7 +194,46 @@
     margin-top: 4px;
   }
 
-  /* ── Red Watch Index ── */
+  /* ── Email Subscription ── */
+  .subscribe-section{padding:0 32px 64px;max-width:760px;margin:0 auto;}
+  .subscribe-wrap{
+    background:#fff;border:1px solid var(--border);border-radius:12px;padding:36px;
+  }
+  .subscribe-header{margin-bottom:24px;}
+  .subscribe-eyebrow{
+    font-size:11px;font-weight:600;letter-spacing:1.2px;text-transform:uppercase;
+    color:var(--accent);display:block;margin-bottom:10px;
+  }
+  .subscribe-wrap h2{font-size:20px;font-weight:600;margin-bottom:8px;line-height:1.3;}
+  .subscribe-wrap .sub-desc{font-size:14px;color:var(--text-muted);line-height:1.6;}
+  .notify-categories{
+    display:grid;grid-template-columns:repeat(2,1fr);gap:10px;margin:20px 0 28px;
+  }
+  .notify-cat{
+    background:var(--bg);border:1px solid var(--border);border-radius:8px;
+    padding:12px 14px;
+  }
+  .notify-cat-title{font-size:12.5px;font-weight:600;margin-bottom:3px;color:var(--text);}
+  .notify-cat-desc{font-size:11.5px;color:var(--text-muted);line-height:1.4;}
+  .subscribe-form{display:flex;gap:10px;flex-wrap:wrap;}
+  .subscribe-form input[type="email"]{
+    flex:1;min-width:200px;padding:11px 16px;border:1px solid var(--border);
+    border-radius:6px;font-size:14px;font-family:inherit;background:#fff;
+    color:var(--text);outline:none;transition:border-color .15s;
+  }
+  .subscribe-form input[type="email"]:focus{border-color:var(--accent);}
+  .subscribe-form input[type="submit"]{
+    background:var(--accent);color:#fff;border:none;border-radius:6px;
+    padding:11px 22px;font-size:14px;font-weight:600;font-family:inherit;
+    cursor:pointer;transition:background .15s;white-space:nowrap;
+  }
+  .subscribe-form input[type="submit"]:hover{background:#a82420;}
+  .subscribe-note{font-size:11.5px;color:var(--text-muted);margin-top:12px;line-height:1.5;}
+  @media(max-width:640px){
+    .notify-categories{grid-template-columns:1fr;}
+    .subscribe-form{flex-direction:column;}
+    .subscribe-form input[type="submit"]{width:100%;}
+  }
   .rwi-section { padding: 0 32px 64px; max-width: 760px; margin: 0 auto; }
   .rwi-wrap {
     background: #fff;
@@ -302,6 +341,44 @@
 
 <section class="quote">
   <p>"Every chart here answers the same question — not whether things are getting worse, but exactly which lever got pulled, by whom, and why nobody was punished for it."</p>
+</section>
+
+<section class="subscribe-section">
+  <div class="subscribe-wrap">
+    <div class="subscribe-header">
+      <span class="subscribe-eyebrow">Stay Informed</span>
+      <h2>Get alerts when it matters</h2>
+      <p class="sub-desc">No noise. We send when there's something worth reading — a threshold crossed, a policy shift, a new dataset. One digest per month at most.</p>
+    </div>
+    <div class="notify-categories">
+      <div class="notify-cat">
+        <div class="notify-cat-title">📊 Data Updates</div>
+        <div class="notify-cat-desc">Monthly metric refresh and new charts added to the dashboard.</div>
+      </div>
+      <div class="notify-cat">
+        <div class="notify-cat-title">🚨 Threshold Alerts</div>
+        <div class="notify-cat-desc">When the Red Watch Index or a key metric crosses a critical line.</div>
+      </div>
+      <div class="notify-cat">
+        <div class="notify-cat-title">⚖️ Policy Watch</div>
+        <div class="notify-cat-desc">Federal budgets, BoC rate decisions, major legislation.</div>
+      </div>
+      <div class="notify-cat">
+        <div class="notify-cat-title">📺 New Content</div>
+        <div class="notify-cat-desc">New videos, site features, and timeline events.</div>
+      </div>
+    </div>
+    <form
+      action="https://buttondown.com/api/emails/embed-subscribe/bolesnikov"
+      method="post"
+      class="subscribe-form"
+      target="_blank"
+    >
+      <input type="email" name="email" id="bd-email" placeholder="your@email.com" required />
+      <input type="submit" value="Subscribe" />
+    </form>
+    <p class="subscribe-note">No spam. Unsubscribe any time. Sent via Buttondown.</p>
+  </div>
 </section>
 
 <section class="nav-cards">
