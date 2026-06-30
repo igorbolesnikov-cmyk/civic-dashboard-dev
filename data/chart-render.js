@@ -16,10 +16,22 @@ function fmtHeader(h){
   return h.replace(/\s*\(/, '\n(').split('\n')[0].trim();
 }
 
-function buildDataset(key, type, idx){
+function isChartableSeries(values){
+  const present = values.filter(v => v !== null && v !== undefined);
+  if(present.length === 0) return false;
+  const numericCount = present.filter(v => typeof v === "number").length;
+  return numericCount / present.length > 0.5;
+}
+
+function sanitizeSeries(values){
+  return values.map(v => typeof v === "number" ? v : null);
+}
+
+function buildDataset(key, type, idx, seriesSubset){
   const d = CANADA_DATA[key];
-  const seriesNames = Object.keys(d.series);
-  const color = PALETTE[idx % PALETTE.length];
+  const allNames = seriesSubset || Object.keys(d.series);
+  // drop annotation-only arrays (e.g. "Context") and any series that's mostly non-numeric
+  const seriesNames = allNames.filter(s => d.series[s] && isChartableSeries(d.series[s]));
 
   if(type === "horizontalBar"){
     // x is category labels, single series (col 1)
@@ -40,13 +52,13 @@ function buildDataset(key, type, idx){
     };
   }
 
-  // line chart, possibly multi-series
+  // line chart, possibly multi-series — all series here share the same unit/scale
   return {
     chartType: "line",
     labels: d.x,
     datasets: seriesNames.map((s,i)=>({
       label: s,
-      data: d.series[s],
+      data: sanitizeSeries(d.series[s]),
       borderColor: PALETTE[i % PALETTE.length],
       backgroundColor: PALETTE[i % PALETTE.length],
       borderWidth: 2,
@@ -100,20 +112,23 @@ function renderCategory(catKey){
   const grid = document.getElementById("chart-grid");
   cfg.charts.forEach((c, idx) => {
     const d = CANADA_DATA[c.key];
+    const canvasId = c.id || c.key;
+    const title = c.title || d.title;
+    const subtitle = c.subtitle || d.subtitle;
     const card = document.createElement("div");
     card.className = "chart-card";
     card.innerHTML = `
-      <h3>${d.title}</h3>
-      <p class="sub">${d.subtitle || ""}</p>
-      <div class="chart-box"><canvas id="chart-${c.key}"></canvas></div>
-      ${d.refTable ? buildRefTable(d.refTable) : ""}
-      ${d.note ? `<div class="ref-note">${d.note}</div>` : ""}
+      <h3>${title}</h3>
+      <p class="sub">${subtitle || ""}</p>
+      <div class="chart-box"><canvas id="chart-${canvasId}"></canvas></div>
+      ${(!c.seriesSubset && d.refTable) ? buildRefTable(d.refTable) : ""}
+      ${(!c.seriesSubset && d.note) ? `<div class="ref-note">${d.note}</div>` : ""}
       <div class="src">${d.source || ""}</div>
     `;
     grid.appendChild(card);
 
-    const built = buildDataset(c.key, c.type, idx);
-    const ctx = document.getElementById(`chart-${c.key}`).getContext("2d");
+    const built = buildDataset(c.key, c.type, idx, c.seriesSubset);
+    const ctx = document.getElementById(`chart-${canvasId}`).getContext("2d");
     const opts = baseChartOptions();
     if(built.indexAxis) opts.indexAxis = built.indexAxis;
     new Chart(ctx, {
