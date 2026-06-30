@@ -121,8 +121,8 @@ function renderCategory(catKey){
       <h3>${title}</h3>
       <p class="sub">${subtitle || ""}</p>
       <div class="chart-box"><canvas id="chart-${canvasId}"></canvas></div>
-      ${(!c.seriesSubset && d.refTable) ? buildRefTable(d.refTable) : ""}
-      ${(!c.seriesSubset && d.note) ? `<div class="ref-note">${d.note}</div>` : ""}
+      ${(c.showRef !== false && d.refTable && (c.showRef === true || !c.seriesSubset)) ? buildRefTable(d.refTable) : ""}
+      ${(c.showRef !== false && d.note && (c.showRef === true || !c.seriesSubset)) ? `<div class="ref-note">${d.note}</div>` : ""}
       <div class="src">${d.source || ""}</div>
     `;
     grid.appendChild(card);
