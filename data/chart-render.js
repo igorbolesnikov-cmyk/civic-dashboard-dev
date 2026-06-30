@@ -51,7 +51,7 @@ function baseChartOptions(){
     responsive:true,maintainAspectRatio:false,
     interaction:{mode:"index",intersect:false},
     plugins:{
-      legend:{display:false},   // disabled — we use HTML legend
+      legend:{display:false},
       tooltip:{
         backgroundColor:"#111110",titleColor:"#f0ede5",
         bodyColor:"#f0ede5",borderColor:"#252320",
@@ -89,7 +89,13 @@ function initModal(){
   el.innerHTML=`<div class="info-modal">
     <button class="info-modal-close" onclick="closeInfoModal()">×</button>
     <p class="info-modal-tag">How to read this chart</p>
-    <h4 id="info-modal-title"></h4>
+    <div class="info-modal-top-row">
+      <h4 id="info-modal-title"></h4>
+      <div class="verdict-badge" id="verdict-badge">
+        <span class="verdict-label">Is this good or bad?</span>
+        <div class="verdict-tooltip" id="verdict-tooltip"></div>
+      </div>
+    </div>
     <p class="info-modal-explain" id="info-modal-body"></p>
     <div class="info-modal-legend" id="info-modal-legend" style="display:none"></div>
   </div>`;
@@ -103,6 +109,17 @@ function openInfoModal(idx){
   const m=_modalCharts[idx];
   document.getElementById("info-modal-title").textContent=m.title;
   document.getElementById("info-modal-body").textContent=m.explain||"No additional explanation available.";
+
+  // verdict badge
+  const badge=document.getElementById("verdict-badge");
+  const tip=document.getElementById("verdict-tooltip");
+  if(m.verdict){
+    tip.textContent=m.verdict;
+    badge.style.display="flex";
+  } else {
+    badge.style.display="none";
+  }
+
   const legendEl=document.getElementById("info-modal-legend");
   if(m.legendItems&&m.legendItems.length){
     legendEl.innerHTML=`<p class="info-modal-legend-label">What each line means</p>`+
@@ -121,6 +138,36 @@ function closeInfoModal(){
   document.getElementById("info-modal-overlay").classList.remove("active");
 }
 
+/* ── collapse/expand all ─────────────────────────────────── */
+function expandAll(){
+  document.querySelectorAll(".chart-card.collapsed").forEach(card=>{
+    toggleCard(card, true);
+  });
+}
+function collapseAll(){
+  document.querySelectorAll(".chart-card:not(.collapsed)").forEach(card=>{
+    toggleCard(card, false);
+  });
+}
+function toggleCard(card, forceOpen){
+  const isCollapsed = card.classList.contains("collapsed");
+  const shouldOpen = forceOpen !== undefined ? forceOpen : isCollapsed;
+
+  if(shouldOpen && isCollapsed){
+    card.classList.remove("collapsed");
+    card.querySelector(".toggle-arrow").textContent="▲";
+    // Lazy chart init
+    if(!card._chartInited){
+      card._chartInited = true;
+      const initFn = card._chartInitFn;
+      if(initFn) initFn();
+    }
+  } else if(!shouldOpen && !isCollapsed){
+    card.classList.add("collapsed");
+    card.querySelector(".toggle-arrow").textContent="▼";
+  }
+}
+
 /* ── main render ─────────────────────────────────────────── */
 function renderCategory(catKey){
   initModal();
@@ -130,7 +177,13 @@ function renderCategory(catKey){
   document.getElementById("cat-title").textContent=cfg.label;
   document.getElementById("cat-desc").textContent=cfg.desc;
 
+  // Expand/collapse controls
   const grid=document.getElementById("chart-grid");
+  const controls=document.createElement("div");
+  controls.className="expand-controls";
+  controls.innerHTML=`<button onclick="expandAll()" class="expand-btn">Expand All</button>
+    <button onclick="collapseAll()" class="expand-btn">Collapse All</button>`;
+  grid.parentNode.insertBefore(controls, grid);
 
   cfg.charts.forEach((c)=>{
     const d=CANADA_DATA[c.key];
@@ -138,49 +191,58 @@ function renderCategory(catKey){
     const title=c.title||d.title;
     const subtitle=c.subtitle||d.subtitle;
     const explain=c.explain||"";
+    const verdict=c.verdict||"";
     const legendExplain=c.legendExplain||{};
     const modalIdx=_modalCharts.length;
 
-    // Determine which series names are shown
     const allNames=c.seriesSubset||Object.keys(d.series);
     const shownSeries=allNames.filter(s=>d.series[s]&&isChartableSeries(d.series[s]));
 
-    // Build legend items for modal
     const legendItems=shownSeries.map((name,i)=>({
       name,color:PALETTE[i%PALETTE.length],
       explain:legendExplain[name]||""}));
 
-    _modalCharts.push({title,explain,legendItems});
+    _modalCharts.push({title,explain,verdict,legendItems});
 
-    // Build card HTML
     const card=document.createElement("div");
-    card.className="chart-card";
+    card.className="chart-card collapsed";
 
     const legendHtml=c.type==="horizontalBar"?"":buildHtmlLegend(shownSeries,legendExplain);
-
     const showRef=c.showRef===true||(!c.seriesSubset&&c.showRef!==false);
     const refHtml=(showRef&&d.refTable)?buildRefTable(d.refTable):"";
     const noteHtml=(showRef&&d.note)?`<div class="ref-note">${d.note}</div>`:"";
 
     card.innerHTML=`
-      <div class="chart-header">
-        <h3 title="${explain.replace(/"/g,"&quot;")}">${title}</h3>
-        <button class="info-btn" onclick="openInfoModal(${modalIdx})" title="Explain this chart">ⓘ</button>
+      <div class="chart-header" onclick="toggleCard(this.closest('.chart-card'))">
+        <div class="chart-header-text">
+          <h3>${title}</h3>
+          <p class="sub">${subtitle||""}</p>
+        </div>
+        <div class="chart-header-actions">
+          <button class="info-btn" onclick="event.stopPropagation();openInfoModal(${modalIdx})" title="Explain this chart">ⓘ</button>
+          <span class="toggle-arrow">▼</span>
+        </div>
       </div>
-      <p class="sub">${subtitle||""}</p>
-      ${legendHtml}
-      <div class="chart-box"><canvas id="chart-${canvasId}"></canvas></div>
-      ${refHtml}${noteHtml}
-      <div class="src">${d.source||""}</div>`;
+      <div class="chart-body">
+        ${legendHtml}
+        <div class="chart-box"><canvas id="chart-${canvasId}"></canvas></div>
+        ${refHtml}${noteHtml}
+        <div class="src">${d.source||""}</div>
+      </div>`;
+
     grid.appendChild(card);
 
-    const built=buildDataset(c.key,c.type,c.seriesSubset);
-    const ctx=document.getElementById(`chart-${canvasId}`).getContext("2d");
-    const opts=baseChartOptions();
-    if(built.indexAxis)opts.indexAxis=built.indexAxis;
-    new Chart(ctx,{
-      type:built.chartType,
-      data:{labels:built.labels,datasets:built.datasets},
-      options:opts});
+    // Store lazy init function
+    card._chartInited = false;
+    card._chartInitFn = function(){
+      const built=buildDataset(c.key,c.type,c.seriesSubset);
+      const ctx=document.getElementById(`chart-${canvasId}`).getContext("2d");
+      const opts=baseChartOptions();
+      if(built.indexAxis)opts.indexAxis=built.indexAxis;
+      new Chart(ctx,{
+        type:built.chartType,
+        data:{labels:built.labels,datasets:built.datasets},
+        options:opts});
+    };
   });
 }
