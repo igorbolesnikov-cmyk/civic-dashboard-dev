@@ -1,0 +1,274 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Policy Timeline — The Red Watch</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#f7f5f1;--bg-card:#fff;--border:#e2dfd8;
+  --text:#111110;--text-dim:#706c66;--accent:#c82d29;
+}
+*{box-sizing:border-box;margin:0;padding:0;}
+body{background:var(--bg);font-family:'Inter',-apple-system,sans-serif;color:var(--text);}
+.wrap{max-width:760px;margin:0 auto;padding:52px 24px 96px;}
+.page-eyebrow{font-size:11px;text-transform:uppercase;letter-spacing:1.2px;color:var(--accent);font-weight:600;margin-bottom:16px;}
+h1{font-size:clamp(26px,4vw,36px);font-weight:600;margin-bottom:12px;line-height:1.2;}
+.page-sub{font-size:15px;color:var(--text-dim);line-height:1.6;max-width:580px;margin-bottom:40px;}
+
+/* filter bar */
+.filter-bar{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:48px;}
+.filter-btn{
+  background:none;border:1px solid var(--border);border-radius:20px;
+  padding:6px 14px;font-size:12px;font-family:inherit;cursor:pointer;
+  color:var(--text-dim);transition:all .15s;
+}
+.filter-btn:hover{border-color:var(--accent);color:var(--accent);}
+.filter-btn.active{background:var(--accent);border-color:var(--accent);color:#fff;}
+
+/* timeline */
+.timeline{position:relative;padding-left:32px;}
+.timeline::before{
+  content:'';position:absolute;left:7px;top:8px;bottom:0;
+  width:2px;background:var(--border);
+}
+.tl-event{position:relative;margin-bottom:36px;}
+.tl-dot{
+  position:absolute;left:-29px;top:6px;
+  width:14px;height:14px;border-radius:50%;
+  border:2px solid #fff;flex-shrink:0;
+}
+.tl-card{
+  background:var(--bg-card);border:1px solid var(--border);
+  border-radius:10px;padding:18px 20px;
+  transition:border-color .15s;
+}
+.tl-card:hover{border-color:#ccc;}
+.tl-top{display:flex;align-items:center;gap:10px;margin-bottom:8px;flex-wrap:wrap;}
+.tl-year{font-size:13px;font-weight:700;color:var(--text);}
+.tl-tag{
+  font-size:10.5px;font-weight:600;text-transform:uppercase;letter-spacing:0.5px;
+  padding:2px 8px;border-radius:3px;color:#fff;
+}
+.tl-title{font-size:15px;font-weight:600;margin-bottom:6px;line-height:1.35;}
+.tl-body{font-size:13.5px;color:var(--text-dim);line-height:1.65;}
+.tl-impact{
+  margin-top:10px;padding:8px 12px;background:var(--bg);
+  border-left:2px solid var(--accent);border-radius:0 4px 4px 0;
+  font-size:12.5px;color:var(--text-dim);line-height:1.5;
+}
+.tl-impact strong{color:var(--accent);font-size:10px;text-transform:uppercase;letter-spacing:0.5px;display:block;margin-bottom:2px;}
+
+/* category colors */
+.tag-monetary{background:#4a7fc1;}
+.tag-fiscal{background:#c82d29;}
+.tag-trade{background:#6a9c6a;}
+.tag-immigration{background:#8a6ac1;}
+.tag-housing{background:#c98a3a;}
+.tag-industrial{background:#6a8c9c;}
+.tag-social{background:#9c6a4a;}
+
+.dot-monetary{background:#4a7fc1;}
+.dot-fiscal{background:#c82d29;}
+.dot-trade{background:#6a9c6a;}
+.dot-immigration{background:#8a6ac1;}
+.dot-housing{background:#c98a3a;}
+.dot-industrial{background:#6a8c9c;}
+.dot-social{background:#9c6a4a;}
+
+.tl-event.hidden{display:none;}
+</style>
+</head>
+<body>
+
+<div class="wrap">
+  <p class="page-eyebrow">The Red Watch</p>
+  <h1>Policy Timeline</h1>
+  <p class="page-sub">Key decisions that shaped Canada's structural trajectory — traced from cause to measurable effect. Filter by category to isolate a single thread.</p>
+
+  <div class="filter-bar">
+    <button class="filter-btn active" data-cat="all">All</button>
+    <button class="filter-btn" data-cat="monetary">Monetary Policy</button>
+    <button class="filter-btn" data-cat="fiscal">Fiscal Policy</button>
+    <button class="filter-btn" data-cat="trade">Trade</button>
+    <button class="filter-btn" data-cat="immigration">Immigration</button>
+    <button class="filter-btn" data-cat="housing">Housing</button>
+    <button class="filter-btn" data-cat="industrial">Industrial</button>
+    <button class="filter-btn" data-cat="social">Social</button>
+  </div>
+
+  <div class="timeline" id="timeline"></div>
+</div>
+
+<script>
+const EVENTS = [
+  {
+    year: "1988",
+    cat: "trade",
+    title: "Canada–US Free Trade Agreement",
+    body: "Canada and the US signed the FTA, eliminating most tariffs on goods over 10 years. Proponents promised an export boom. Critics warned of deindustrialisation as Canadian manufacturers would face direct US competition without tariff protection.",
+    impact: "Manufacturing as a share of GDP began a long decline. Canada's export economy became structurally tied to the US — a dependency now measured at 75–85% of all goods exports."
+  },
+  {
+    year: "1994",
+    cat: "trade",
+    title: "NAFTA Takes Effect",
+    body: "The North American Free Trade Agreement extended the 1988 FTA to include Mexico, opening Canadian manufacturers to competition from low-wage Mexican labour simultaneously with US competition.",
+    impact: "Accelerated the hollowing out of mid-sized Canadian industrial cities. Capital increasingly moved toward resource extraction and real estate — sectors that cannot be offshored."
+  },
+  {
+    year: "1995",
+    cat: "fiscal",
+    title: "Chrétien–Martin Austerity Budget",
+    body: "With federal debt at 67% of GDP and Canada near IMF intervention, Finance Minister Paul Martin delivered the largest spending cuts in Canadian history — eliminating the deficit in three years. Program spending was cut roughly 20% in real terms.",
+    impact: "Federal debt-to-GDP fell from 67% to 29% by 2008. Proof that structural fiscal correction is possible — but required political will that has not reappeared since."
+  },
+  {
+    year: "2001",
+    cat: "trade",
+    title: "China Joins the WTO",
+    body: "China's entry into the World Trade Organization opened 1.4 billion low-wage workers to Western capital virtually overnight. Canadian and American manufacturers suddenly faced competition from a labour force earning a fraction of Canadian wages.",
+    impact: "Canada's manufacturing share of GDP began its steepest decline starting 2001–2002. Real Estate surpassed Manufacturing in GDP share by 2012 — capital moved to where it couldn't be competed away."
+  },
+  {
+    year: "2001",
+    cat: "immigration",
+    title: "Immigration and Refugee Protection Act",
+    body: "Canada's new immigration framework shifted selection criteria, expanded the points system, and set the architecture for the sustained intake increases that followed over the next two decades.",
+    impact: "Permanent resident admissions grew from ~220K/year in 2001 toward 400K+ by the 2020s. The long-run demographic dependency on immigration — now 95%+ of population growth — begins here."
+  },
+  {
+    year: "2008",
+    cat: "monetary",
+    title: "Bank of Canada Emergency Rate Cuts",
+    body: "In response to the global financial crisis, the Bank of Canada cut its overnight rate from 4.5% to 0.25% over 15 months — the lowest rate in Canadian history at the time.",
+    impact: "Triggered a wave of household borrowing and real estate investment. Household debt-to-income, already elevated, began its climb toward 179%. The housing affordability crisis is mechanically traceable to this rate decision."
+  },
+  {
+    year: "2009",
+    cat: "fiscal",
+    title: "Harper Stimulus Package",
+    body: "The Conservative government ran a $55.6B deficit — at the time the largest since WWII — to stimulate the economy through the global recession. Infrastructure spending, tax cuts, and social transfers were the primary vehicles.",
+    impact: "Canada exited the recession relatively quickly. But the return to surplus was slow, and the precedent of large deficit spending in a crisis was established — reprised at far greater scale in 2020."
+  },
+  {
+    year: "2012",
+    cat: "industrial",
+    title: "Real Estate Surpasses Manufacturing in GDP Share",
+    body: "A structural crossover: for the first time in Canadian recorded history, Real Estate, Rental and Leasing became a larger share of GDP than Manufacturing. Capital allocation had definitively shifted from making things to owning and renting them.",
+    impact: "The crossover is now visible on the sector allocation chart. Houses do not make workers more productive. The productivity stagnation documented in the G7 comparison is in part a consequence of this capital reallocation."
+  },
+  {
+    year: "2015",
+    cat: "fiscal",
+    title: "Trudeau Government Elected — Deficit Spending Becomes Permanent",
+    body: "The Liberal government was elected on a platform of modest deficit spending to fund infrastructure. The promised return to surplus never materialised — deficits continued through every pre-COVID year, including years of strong economic growth.",
+    impact: "Running deficits in good times left no fiscal buffer for the next crisis. When COVID arrived in 2020, Canada had no structural surplus to draw on — only the capacity to borrow more."
+  },
+  {
+    year: "2016",
+    cat: "housing",
+    title: "Vancouver and Toronto Housing Measures",
+    body: "Both Vancouver and Toronto introduced foreign buyer taxes (15%) in response to rapidly accelerating house prices. These were the first major demand-side interventions in the housing market in decades.",
+    impact: "Prices moderated temporarily in both cities then resumed climbing. The measures treated a symptom (foreign demand) while leaving the structural causes — low rates, restricted supply, zoning — entirely intact."
+  },
+  {
+    year: "2017",
+    cat: "immigration",
+    title: "Immigration Targets Begin Sustained Escalation",
+    body: "The federal government announced multi-year immigration levels plans targeting 300K, then 350K, then 400K+ permanent residents annually — the largest sustained intake in Canadian history. Non-permanent resident intake expanded simultaneously with little public debate.",
+    impact: "Population growth accelerated beyond housing, healthcare, and infrastructure capacity. The per-capita GDP divergence visible on the living standards chart begins its steepest descent here."
+  },
+  {
+    year: "2018",
+    cat: "trade",
+    title: "USMCA Replaces NAFTA",
+    body: "The renegotiated trade agreement (called CUSMA in Canada) updated NAFTA's terms under pressure from the Trump administration. Automotive rules-of-origin tightened, dairy market access expanded slightly, and dispute resolution mechanisms were weakened.",
+    impact: "Canada retained preferential US market access — but the renegotiation demonstrated how completely US political decisions determine Canadian trade conditions. Export dependency on the US remained 75–85%."
+  },
+  {
+    year: "2020",
+    cat: "fiscal",
+    title: "COVID Emergency Spending — $327.7B Deficit",
+    body: "The federal government spent $327.7 billion more than it collected in 2020 — the largest deficit in Canadian history by an enormous margin. CERB, wage subsidies, business supports, and healthcare spending drove the total.",
+    impact: "Federal net debt-to-GDP surged back toward 50% after a decade of improvement. Annual debt servicing costs — now ~$54B — consume as much as the entire Canada Health Transfer. No credible plan to return to surplus has been published."
+  },
+  {
+    year: "2020",
+    cat: "monetary",
+    title: "Bank of Canada Returns to Emergency Rates",
+    body: "The BoC cut its overnight rate to 0.25% again — matching the 2009 emergency low. Combined with pandemic-era fiscal transfers depositing cash directly into household accounts, the conditions for a historic asset price surge were set.",
+    impact: "The house price-to-income ratio peaked at 11.8× in 2021 — the highest ever recorded. Canadians who had borrowed at near-zero rates would face severe payment shock when rates normalised."
+  },
+  {
+    year: "2022",
+    cat: "monetary",
+    title: "Bank of Canada Rate Hike Cycle — 0.25% to 5.0%",
+    body: "In the fastest tightening cycle in 40 years, the Bank of Canada raised its overnight rate from 0.25% to 5.0% in 18 months to combat inflation that peaked at 8.1%. Every variable-rate mortgage and line of credit repriced almost overnight.",
+    impact: "Household debt at 179% of income became acutely expensive. Real wages went negative in 2023–24 — inflation outpaced pay increases while debt costs surged. The payment shock fell hardest on those who borrowed most during the low-rate era."
+  },
+  {
+    year: "2022",
+    cat: "immigration",
+    title: "Non-Permanent Resident Surge",
+    body: "International student and temporary foreign worker admissions surged dramatically — non-permanent residents grew from approximately 800K to over 2.5 million between 2021 and 2024. The intake velocity exceeded any previous period in Canadian history.",
+    impact: "Housing demand surged in major cities at exactly the moment housing supply was constrained and interest rates were rising. Per-capita GDP fell as population grew faster than economic output. Infrastructure, healthcare and transit systems reported acute capacity strain."
+  },
+  {
+    year: "2023",
+    cat: "housing",
+    title: "Federal Housing Accelerator Fund",
+    body: "The federal government launched a $4B Housing Accelerator Fund aimed at cutting municipal red tape and accelerating housing starts. Agreements were signed with major cities requiring zoning reform in exchange for funding.",
+    impact: "A supply-side intervention — the correct policy direction after decades of demand-side fixes. Too early to measure full impact. Housing starts remain well below the pace required to restore affordability given the population surge."
+  },
+  {
+    year: "2024",
+    cat: "immigration",
+    title: "Immigration Targets Reduced",
+    body: "Under political pressure and public opinion shifting sharply on immigration levels, the federal government cut permanent resident targets and announced a cap on international student permits. Non-permanent resident numbers began declining from their peak.",
+    impact: "The first meaningful downward adjustment to intake levels in over a decade. Whether it stabilises the per-capita GDP trajectory depends on the pace of reduction and whether housing supply can catch up. The structural fertility deficit remains unaddressed."
+  },
+  {
+    year: "2025",
+    cat: "trade",
+    title: "US Tariffs on Canadian Goods",
+    body: "The United States imposed broad tariffs on Canadian imports — including steel, aluminum, and automotive products — testing the structural vulnerability documented in the trade data. Canada retaliated with countermeasures but had no short-term alternative export market at scale.",
+    impact: "Live demonstration of the US export concentration risk. Canada's current account position deteriorated. The CAD weakened. The absence of trade diversification, decades in the making, became an acute economic vulnerability in real time."
+  },
+];
+
+function renderTimeline(filter){
+  const tl = document.getElementById("timeline");
+  tl.innerHTML = EVENTS.map(e => {
+    const hidden = filter !== "all" && e.cat !== filter ? "hidden" : "";
+    return `<div class="tl-event ${hidden}" data-cat="${e.cat}">
+      <div class="tl-dot dot-${e.cat}"></div>
+      <div class="tl-card">
+        <div class="tl-top">
+          <span class="tl-year">${e.year}</span>
+          <span class="tl-tag tag-${e.cat}">${e.cat.charAt(0).toUpperCase()+e.cat.slice(1)}</span>
+        </div>
+        <div class="tl-title">${e.title}</div>
+        <div class="tl-body">${e.body}</div>
+        <div class="tl-impact"><strong>Data impact</strong>${e.impact}</div>
+      </div>
+    </div>`;
+  }).join("");
+}
+
+document.querySelectorAll(".filter-btn").forEach(btn => {
+  btn.addEventListener("click", function(){
+    document.querySelectorAll(".filter-btn").forEach(b => b.classList.remove("active"));
+    this.classList.add("active");
+    renderTimeline(this.dataset.cat);
+  });
+});
+
+renderTimeline("all");
+</script>
+
+<script src="nav.js"></script>
+</body>
+</html>

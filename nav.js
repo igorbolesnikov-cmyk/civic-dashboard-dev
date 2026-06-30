@@ -6,6 +6,7 @@
   const links = [
     { href: r + 'index.html',            label: 'Home' },
     { href: r + 'data/index.html',       label: 'Data' },
+    { href: r + 'timeline.html',         label: 'Timeline' },
     { href: r + 'thesis.html',           label: 'Thesis' },
     { href: r + 'methodology.html',      label: 'Methodology' },
     { href: r + 'index.html#about',      label: 'About' },
