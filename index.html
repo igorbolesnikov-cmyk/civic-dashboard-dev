@@ -194,7 +194,43 @@
     margin-top: 4px;
   }
 
-  /* ── Email Subscription ── */
+  /* ── What Changed Feed ── */
+  .feed-section{padding:0 32px 64px;max-width:760px;margin:0 auto;}
+  .feed-wrap{background:#fff;border:1px solid var(--border);border-radius:12px;padding:32px;}
+  .feed-header{display:flex;align-items:baseline;justify-content:space-between;margin-bottom:24px;gap:12px;flex-wrap:wrap;}
+  .feed-eyebrow{font-size:11px;font-weight:600;letter-spacing:1.2px;text-transform:uppercase;color:var(--accent);}
+  .feed-month{font-size:12px;color:var(--text-muted);}
+  .feed-wrap h2{font-size:20px;font-weight:600;margin-bottom:20px;}
+  .feed-list{display:flex;flex-direction:column;gap:12px;}
+  .feed-item{
+    display:flex;align-items:flex-start;gap:14px;
+    padding:14px 16px;background:var(--bg);border-radius:8px;
+    border:1px solid var(--border);
+  }
+  .feed-arrow{
+    font-size:18px;font-weight:700;flex-shrink:0;width:24px;
+    text-align:center;line-height:1.4;
+  }
+  .feed-arrow.up{color:#2e7d4f;}
+  .feed-arrow.down{color:#c82d29;}
+  .feed-arrow.new{color:#4a7fc1;}
+  .feed-arrow.neutral{color:#906c3a;}
+  .feed-content{flex:1;}
+  .feed-item-title{font-size:13.5px;font-weight:600;margin-bottom:3px;color:var(--text-bright);}
+  .feed-item-note{font-size:12.5px;color:var(--text-muted);line-height:1.5;}
+  .feed-tag{
+    display:inline-block;font-size:10px;font-weight:600;text-transform:uppercase;
+    letter-spacing:0.4px;padding:2px 7px;border-radius:3px;margin-bottom:5px;
+  }
+  .tag-data{background:#e8f0e8;color:#2e6e2e;}
+  .tag-threshold{background:#fde8e8;color:#a82020;}
+  .tag-policy{background:#e8eef8;color:#2a4a8a;}
+  .tag-feature{background:#f0eaff;color:#5a2a9a;}
+  .feed-empty{font-size:13.5px;color:var(--text-muted);font-style:italic;text-align:center;padding:20px 0;}
+
+  @media(max-width:640px){
+    .feed-item{flex-direction:column;gap:8px;}
+  }
   .subscribe-section{padding:0 32px 64px;max-width:760px;margin:0 auto;}
   .subscribe-wrap{
     background:#fff;border:1px solid var(--border);border-radius:12px;padding:36px;
@@ -343,6 +379,16 @@
   <p>"Every chart here answers the same question — not whether things are getting worse, but exactly which lever got pulled, by whom, and why nobody was punished for it."</p>
 </section>
 
+<section class="feed-section">
+  <div class="feed-wrap">
+    <div class="feed-header">
+      <span class="feed-eyebrow">What Changed This Month</span>
+      <span class="feed-month" id="feed-month"></span>
+    </div>
+    <div class="feed-list" id="feed-list"></div>
+  </div>
+</section>
+
 <section class="subscribe-section">
   <div class="subscribe-wrap">
     <div class="subscribe-header">
@@ -398,6 +444,71 @@
   </div>
 </section>
 
+<script>
+/* ═══════════════════════════════════════════════════
+   WHAT CHANGED THIS MONTH — Update this array monthly.
+   direction: "up" | "down" | "new" | "neutral"
+   tag: "data" | "threshold" | "policy" | "feature"
+   arrow glyphs: up=↑ down=↓ new=★ neutral=→
+═══════════════════════════════════════════════════ */
+const FEED = [
+  {
+    direction: "new",
+    tag: "feature",
+    title: "Site launched — The Red Watch is live",
+    note: "Policy timeline, Red Watch Index, six chart categories, and 44 datasets now publicly accessible."
+  },
+  {
+    direction: "new",
+    tag: "feature",
+    title: "Red Watch Index introduced — Canada scores 31/100",
+    note: "Composite score across five structural pillars: Economic Health, Fiscal Sustainability, Demographic Vitality, Social Cohesion, and Labour & Equality. Rated Severe."
+  },
+  {
+    direction: "down",
+    tag: "data",
+    title: "Fertility rate holds at 1.35 — 36th consecutive year below replacement",
+    note: "Canada has not reached replacement-level fertility (2.1) since 1971. The second-generation immigrant convergence data confirms immigration does not structurally resolve this."
+  },
+  {
+    direction: "down",
+    tag: "data",
+    title: "Labour force participation falls to 64.1%",
+    note: "Down from a peak of 67.6% in 2008. Headline unemployment remains stable — but hundreds of thousands of working-age Canadians have exited the workforce entirely and are not counted."
+  },
+  {
+    direction: "neutral",
+    tag: "policy",
+    title: "Bank of Canada holds overnight rate at 2.75%",
+    note: "The BoC paused its rate-cut cycle amid US tariff uncertainty. Household debt at 179% of income remains acutely sensitive to any upward rate movement."
+  },
+];
+
+const ARROWS = { up:"↑", down:"↓", new:"★", neutral:"→" };
+const TAG_LABELS = { data:"Data", threshold:"Threshold", policy:"Policy", feature:"New Feature" };
+
+function renderFeed(){
+  const now = new Date();
+  document.getElementById("feed-month").textContent =
+    now.toLocaleString("default",{month:"long"}) + " " + now.getFullYear();
+
+  const list = document.getElementById("feed-list");
+  if(!FEED.length){
+    list.innerHTML = `<p class="feed-empty">No updates this month yet — check back soon.</p>`;
+    return;
+  }
+  list.innerHTML = FEED.map(f=>`
+    <div class="feed-item">
+      <span class="feed-arrow ${f.direction}">${ARROWS[f.direction]}</span>
+      <div class="feed-content">
+        <span class="feed-tag tag-${f.tag}">${TAG_LABELS[f.tag]}</span>
+        <div class="feed-item-title">${f.title}</div>
+        <div class="feed-item-note">${f.note}</div>
+      </div>
+    </div>`).join("");
+}
+renderFeed();
+</script>
 <script src="red-watch-index.js"></script>
 <script>renderRWI();</script>
 <script src="nav.js"></script>
