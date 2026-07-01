@@ -95,7 +95,7 @@ const CHART_CONFIG = {
 
   debt_fiscal: {
     label: "Debt & Fiscal",
-    desc: "Household and sovereign debt, housing costs, monetary policy, federal spending.",
+    desc: "Household and sovereign debt, housing costs, monetary policy, federal spending, and government spending efficiency.",
     charts: [
       { key: "household_debt", type: "line",
         explain: "This measures how much debt Canadian households carry relative to their annual income. A ratio of 100% means households owe exactly one full year's income. Canada's ratio reached 179.6% — nearly two full years of income owed, before a single bill is paid. This is one of the highest ratios in the developed world and leaves households extremely vulnerable to interest rate increases or job loss.",
@@ -181,6 +181,58 @@ const CHART_CONFIG = {
           "ESDC ($B)": "Employment and Social Development Canada. The 2020 spike is COVID emergency spending — CERB and wage subsidies.",
           "Indigenous Services ($B)": "Jumps in 2017 because INAC was split into two departments — not a real spending increase.",
           "Global Affairs ($B)": "Foreign affairs, international trade, and development assistance."
+        }
+      }
+,
+      { key: "govt_efficiency", id: "govt_efficiency-health$", type: "line", showRef: true,
+        seriesSubset: ["Health Spend per Capita ($)"],
+        title: "Canada: Health Spending per Capita (2000–2026) | $",
+        subtitle: "Nominal healthcare spend per capita.",
+        explain: "How much Canada spends per person on healthcare each year. Spending has nearly tripled since 2000. Compare this chart to the life expectancy and health value score charts below: dramatically more spending has produced only marginal improvement in outcomes. Canada now spends more per capita than Germany, France, and Japan — and ranks 6th of 7 in the G7 on health outcomes.",
+        verdict: "BAD — Healthcare spending has nearly tripled while outcomes have barely improved. Canada now spends more per capita than Germany and France and gets worse results. More money is not producing better health.",
+        legendExplain: {
+          "Health Spend per Capita ($)": "Total health spending (public + private) divided by population. The per-person annual cost of the healthcare system."
+        }
+      },
+      { key: "govt_efficiency", id: "govt_efficiency-infra$", type: "line",
+        seriesSubset: ["Infra Spend ($B)"],
+        title: "Canada: Infrastructure Spending (2000–2026) | $B",
+        subtitle: "Nominal aggregate infrastructure spend.",
+        explain: "Total public infrastructure spending per year — rising steadily. But compare this to the infrastructure quality index chart below: quality has fallen every year despite rising spend. More money is producing worse infrastructure. This gap between inputs (spending) and outputs (quality) is the signature of a government efficiency problem.",
+        verdict: "BAD — Infrastructure spending is rising while infrastructure quality is falling. More money is being spent to produce worse results — the signature of a government efficiency problem.",
+        legendExplain: {
+          "Infra Spend ($B)": "Combined federal and provincial public infrastructure investment per year. In billions of dollars."
+        }
+      },
+      { key: "govt_efficiency", id: "govt_efficiency-value", type: "line",
+        seriesSubset: ["Health Value Score ($/yr)"],
+        title: "Canada: Health Value Score (2000–2026) | $ per Life-Year",
+        subtitle: "Cost per life-year of health spending — falling is bad here, it means less value per dollar.",
+        explain: "A measure of what each dollar of healthcare spending actually buys in terms of population health outcomes. A falling line means each additional dollar is producing less improvement. This is declining efficiency: spending is rising faster than outcomes are improving. The system costs more and delivers proportionally less each year.",
+        verdict: "BAD — A falling health value score means each additional dollar buys less health outcome improvement. The system is simultaneously getting more expensive and less efficient.",
+        legendExplain: {
+          "Health Value Score ($/yr)": "A derived measure of cost-effectiveness — how much health outcome improvement each dollar of spending produces. Falling = declining efficiency. The system is getting more expensive without getting proportionally better."
+        }
+      },
+      { key: "govt_efficiency", id: "govt_efficiency-life", type: "line",
+        seriesSubset: ["Life Expect. (Years)"],
+        title: "Canada: Life Expectancy (2000–2026) | Years",
+        subtitle: "Average life expectancy at birth.",
+        explain: "Average life expectancy at birth in Canada. Has risen modestly since 2000 but has essentially plateaued — and briefly declined during COVID. The near-flatness of this line while healthcare spending has nearly tripled is the core evidence of diminishing returns from additional health investment.",
+        verdict: "MIXED — Life expectancy is still rising slowly, which is good. But the near-flatness while spending has tripled is the clearest evidence of diminishing returns on additional health investment.",
+        legendExplain: {
+          "Life Expect. (Years)": "Average number of years a newborn Canadian is expected to live, based on current mortality rates."
+        }
+      },
+      { key: "govt_efficiency", id: "govt_efficiency", type: "line",
+        seriesSubset: ["Infra Quality Index (0-100)", "Pub Sector Productivity Idx"],
+        title: "Canada: Infrastructure Quality & Public Sector Productivity (2000–2026) | Index 0–100",
+        subtitle: "Same 0–100 index scale, directly comparable. Both declining despite rising spend on the charts above.",
+        explain: "Two government performance metrics on the same scale, both anchored at 100 in 2000. Infrastructure quality has fallen to 62.4 — Canadian infrastructure is measurably worse than 25 years ago despite spending more than double. Public sector productivity has fallen to 86.2 — the public sector produces less output per employee than in 2000. The government is spending more and delivering less on both dimensions simultaneously.",
+        verdict: "BAD — Both lines are falling. Infrastructure quality is deteriorating. Public sector workers produce less per person than 25 years ago. The government spends more and delivers less on both dimensions simultaneously.",
+        legendExplain: {
+          "Infra Quality Index (0-100)": "A composite measure of Canadian infrastructure quality and condition. 100 = 2000 baseline. Falling index means deteriorating quality despite rising spending.",
+          "Pub Sector Productivity Idx": "Output per government employee relative to 2000 = 100. Falling means the public sector is getting less done per worker over time."
         }
       }
     ]
@@ -423,9 +475,9 @@ const CHART_CONFIG = {
     ]
   },
 
-  fiscal_resources: {
-    label: "Fiscal & Resources",
-    desc: "Energy and resource revenue, equalization flows, and government spending efficiency.",
+  resources: {
+    label: "Resources",
+    desc: "Energy and resource revenue, equalization flows, and commodity exposure.",
     charts: [
       { key: "energy", id: "energy", type: "line", showRef: true,
         seriesSubset: ["Oil & Gas Revenue ($B)", "Fed Equalization Paid ($B)", "Alta Resource Revenue ($B)", "Crit. Mineral Export ($B)"],
@@ -458,57 +510,6 @@ const CHART_CONFIG = {
         verdict: "MIXED / POSITIVE — Growing LNG exports represent genuine diversification away from exclusive US dependency. From a low base, but the trend is positive if regulatory and pipeline capacity expands.",
         legendExplain: {
           "LNG Exports (BCF/yr)": "Canada's total liquefied natural gas exports. BCF = Billion Cubic Feet. A higher number means more natural gas sold abroad."
-        }
-      },
-      { key: "govt_efficiency", id: "govt_efficiency-health$", type: "line", showRef: true,
-        seriesSubset: ["Health Spend per Capita ($)"],
-        title: "Canada: Health Spending per Capita (2000–2026) | $",
-        subtitle: "Nominal healthcare spend per capita.",
-        explain: "How much Canada spends per person on healthcare each year. Spending has nearly tripled since 2000. Compare this chart to the life expectancy and health value score charts below: dramatically more spending has produced only marginal improvement in outcomes. Canada now spends more per capita than Germany, France, and Japan — and ranks 6th of 7 in the G7 on health outcomes.",
-        verdict: "BAD — Healthcare spending has nearly tripled while outcomes have barely improved. Canada now spends more per capita than Germany and France and gets worse results. More money is not producing better health.",
-        legendExplain: {
-          "Health Spend per Capita ($)": "Total health spending (public + private) divided by population. The per-person annual cost of the healthcare system."
-        }
-      },
-      { key: "govt_efficiency", id: "govt_efficiency-infra$", type: "line",
-        seriesSubset: ["Infra Spend ($B)"],
-        title: "Canada: Infrastructure Spending (2000–2026) | $B",
-        subtitle: "Nominal aggregate infrastructure spend.",
-        explain: "Total public infrastructure spending per year — rising steadily. But compare this to the infrastructure quality index chart below: quality has fallen every year despite rising spend. More money is producing worse infrastructure. This gap between inputs (spending) and outputs (quality) is the signature of a government efficiency problem.",
-        verdict: "BAD — Infrastructure spending is rising while infrastructure quality is falling. More money is being spent to produce worse results — the signature of a government efficiency problem.",
-        legendExplain: {
-          "Infra Spend ($B)": "Combined federal and provincial public infrastructure investment per year. In billions of dollars."
-        }
-      },
-      { key: "govt_efficiency", id: "govt_efficiency-value", type: "line",
-        seriesSubset: ["Health Value Score ($/yr)"],
-        title: "Canada: Health Value Score (2000–2026) | $ per Life-Year",
-        subtitle: "Cost per life-year of health spending — falling is bad here, it means less value per dollar.",
-        explain: "A measure of what each dollar of healthcare spending actually buys in terms of population health outcomes. A falling line means each additional dollar is producing less improvement. This is declining efficiency: spending is rising faster than outcomes are improving. The system costs more and delivers proportionally less each year.",
-        verdict: "BAD — A falling health value score means each additional dollar buys less health outcome improvement. The system is simultaneously getting more expensive and less efficient.",
-        legendExplain: {
-          "Health Value Score ($/yr)": "A derived measure of cost-effectiveness — how much health outcome improvement each dollar of spending produces. Falling = declining efficiency. The system is getting more expensive without getting proportionally better."
-        }
-      },
-      { key: "govt_efficiency", id: "govt_efficiency-life", type: "line",
-        seriesSubset: ["Life Expect. (Years)"],
-        title: "Canada: Life Expectancy (2000–2026) | Years",
-        subtitle: "Average life expectancy at birth.",
-        explain: "Average life expectancy at birth in Canada. Has risen modestly since 2000 but has essentially plateaued — and briefly declined during COVID. The near-flatness of this line while healthcare spending has nearly tripled is the core evidence of diminishing returns from additional health investment.",
-        verdict: "MIXED — Life expectancy is still rising slowly, which is good. But the near-flatness while spending has tripled is the clearest evidence of diminishing returns on additional health investment.",
-        legendExplain: {
-          "Life Expect. (Years)": "Average number of years a newborn Canadian is expected to live, based on current mortality rates."
-        }
-      },
-      { key: "govt_efficiency", id: "govt_efficiency", type: "line",
-        seriesSubset: ["Infra Quality Index (0-100)", "Pub Sector Productivity Idx"],
-        title: "Canada: Infrastructure Quality & Public Sector Productivity (2000–2026) | Index 0–100",
-        subtitle: "Same 0–100 index scale, directly comparable. Both declining despite rising spend on the charts above.",
-        explain: "Two government performance metrics on the same scale, both anchored at 100 in 2000. Infrastructure quality has fallen to 62.4 — Canadian infrastructure is measurably worse than 25 years ago despite spending more than double. Public sector productivity has fallen to 86.2 — the public sector produces less output per employee than in 2000. The government is spending more and delivering less on both dimensions simultaneously.",
-        verdict: "BAD — Both lines are falling. Infrastructure quality is deteriorating. Public sector workers produce less per person than 25 years ago. The government spends more and delivers less on both dimensions simultaneously.",
-        legendExplain: {
-          "Infra Quality Index (0-100)": "A composite measure of Canadian infrastructure quality and condition. 100 = 2000 baseline. Falling index means deteriorating quality despite rising spending.",
-          "Pub Sector Productivity Idx": "Output per government employee relative to 2000 = 100. Falling means the public sector is getting less done per worker over time."
         }
       }
     ]
