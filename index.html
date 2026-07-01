@@ -26,35 +26,6 @@
     color: var(--text-bright);
   }
 
-  nav {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 20px 32px;
-    border-bottom: 0.5px solid var(--border);
-  }
-
-  nav .brand {
-    font-size: 14px;
-    font-weight: 600;
-    letter-spacing: 0.5px;
-  }
-
-  nav .links {
-    display: flex;
-    gap: 24px;
-  }
-
-  nav .links a {
-    color: var(--text-dim);
-    font-size: 13px;
-    text-decoration: none;
-  }
-
-  nav .links a:hover {
-    color: var(--text-bright);
-  }
-
   .hero {
     padding: 72px 32px 56px;
     max-width: 620px;
@@ -344,7 +315,6 @@
 
   @media (max-width: 640px) {
     .stats-grid, .nav-cards-grid { grid-template-columns: repeat(2, 1fr); }
-    nav .links { display: none; }
     .hero h1 { font-size: 26px; }
     .rwi-pillars { grid-template-columns: repeat(2, 1fr); }
     .rwi-number { font-size: 56px; }
@@ -353,16 +323,6 @@
 </style>
 </head>
 <body>
-
-<nav>
-  <p class="brand">NORTHWATCH</p>
-  <div class="links">
-    <a href="data/index.html">Data</a>
-    <a href="thesis.html">Thesis</a>
-    <a href="#about">About</a>
-    <a href="#take-action">Take Action</a>
-  </div>
-</nav>
 
 <section class="hero">
   <p class="eyebrow">A civic data resource</p>
