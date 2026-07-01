@@ -52,7 +52,7 @@
     }
     .site-nav-brand:hover{color:#c82d29;}
     .site-nav-links{
-      display:flex;align-items:center;gap:28px;
+      display:flex;align-items:center;gap:18px;
       overflow-x:auto;-webkit-overflow-scrolling:touch;
       scrollbar-width:none;-ms-overflow-style:none;
       min-width:0;margin-left:20px;
@@ -62,7 +62,7 @@
       font-size:12.5px;color:#706c66;text-decoration:none;
       text-transform:uppercase;letter-spacing:0.06em;font-weight:500;
       transition:color .15s;flex-shrink:0;
-      padding:18px 2px;display:inline-block;
+      padding:18px 6px;display:inline-block;
     }
     .site-nav-links a:hover,.site-nav-links a.active{color:#c82d29;}
     .site-nav-links a.active{font-weight:600;}
