@@ -104,7 +104,7 @@ h1{font-size:clamp(28px,4vw,42px);font-weight:600;margin:0 0 8px;}
 
 @media (max-width:480px){
   .chart-header{flex-direction:column;align-items:flex-start;}
-  .chart-header-actions{margin-top:10px;align-self:flex-end;}
+  .chart-header-actions{margin-top:10px;align-self:flex-end;flex-wrap:wrap;justify-content:flex-end;gap:8px;}
 }
 
 /* collapsed state hides body */
@@ -136,6 +136,15 @@ h1{font-size:clamp(28px,4vw,42px);font-weight:600;margin:0 0 8px;}
 }
 .share-btn:hover{border-color:var(--accent);color:var(--accent);}
 .share-btn-copied{border-color:var(--accent);color:var(--accent);}
+
+/* "CSV download" button */
+.csv-btn{
+  background:none;border:1px solid var(--line);color:var(--text-dim);
+  border-radius:16px;height:28px;padding:0 12px;font-size:12px;font-weight:600;
+  cursor:pointer;display:flex;align-items:center;justify-content:center;
+  flex-shrink:0;transition:border-color .15s,color .15s;white-space:nowrap;
+}
+.csv-btn:hover{border-color:var(--accent);color:var(--accent);}
 
 /* deep-link highlight flash */
 @keyframes shareHighlight{

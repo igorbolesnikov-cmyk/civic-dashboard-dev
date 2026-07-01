@@ -224,6 +224,44 @@ function openSharedChart(){
   setTimeout(()=>card.classList.remove("share-highlight"),2200);
 }
 
+/* ── CSV export ───────────────────────────────────────────── */
+const _csvExportMap={};
+
+function csvEscape(val){
+  if(val===null||val===undefined)return "";
+  const s=String(val);
+  return /[",\n]/.test(s) ? `"${s.replace(/"/g,'""')}"` : s;
+}
+
+function downloadChartCSV(canvasId){
+  const meta=_csvExportMap[canvasId];
+  if(!meta)return;
+  const d=CANADA_DATA[meta.dataKey];
+  if(!d)return;
+  const x=d.x||[];
+  const header=[meta.xLabel||"X",...meta.seriesNames];
+  const rows=[header];
+  for(let i=0;i<x.length;i++){
+    const row=[x[i]];
+    for(const name of meta.seriesNames){
+      const series=d.series[name]||[];
+      row.push(series[i]===undefined?"":series[i]);
+    }
+    rows.push(row);
+  }
+  const csv=rows.map(r=>r.map(csvEscape).join(",")).join("\r\n");
+  const blob=new Blob([csv],{type:"text/csv;charset=utf-8;"});
+  const url=URL.createObjectURL(blob);
+  const a=document.createElement("a");
+  const safeName=(meta.title||canvasId).toLowerCase().replace(/[^a-z0-9]+/g,"-").replace(/(^-|-$)/g,"");
+  a.href=url;
+  a.download=`northwatch-${safeName||canvasId}.csv`;
+  document.body.appendChild(a);
+  a.click();
+  document.body.removeChild(a);
+  URL.revokeObjectURL(url);
+}
+
 /* ── collapse/expand all ─────────────────────────────────── */
 function expandAll(){
   document.querySelectorAll(".chart-card.collapsed").forEach(card=>{
@@ -297,6 +335,8 @@ function renderCategory(catKey){
 
     _modalCharts.push({title,explain,verdict,legendItems,citedThreshold:c.citedThreshold||""});
 
+    _csvExportMap[canvasId]={dataKey:c.key,seriesNames:shownSeries,xLabel:d.xLabel||"",title};
+
     const card=document.createElement("div");
     card.className="chart-card collapsed";
     card.id=`card-${canvasId}`;
@@ -315,6 +355,7 @@ function renderCategory(catKey){
         </div>
         <div class="chart-header-actions">
           <button class="share-btn" onclick="event.stopPropagation();shareChart('${canvasId}', this)" title="Copy link to this chart">Share</button>
+          <button class="csv-btn" onclick="event.stopPropagation();downloadChartCSV('${canvasId}')" title="Download this chart's data as CSV">CSV</button>
           <button class="info-btn" onclick="event.stopPropagation();openInfoModal(${modalIdx})">What does this mean?</button>
           <span class="toggle-arrow">▼</span>
         </div>
