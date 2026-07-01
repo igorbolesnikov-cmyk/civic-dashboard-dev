@@ -1,3 +1,10 @@
+/* ── last-updated formatting ─────────────────────────────── */
+function formatLastUpdated(iso){
+  const d=new Date(iso+"T00:00:00");
+  if(isNaN(d))return iso;
+  return d.toLocaleDateString("en-CA",{year:"numeric",month:"long",day:"numeric"});
+}
+
 /* ── reference table ─────────────────────────────────────── */
 function buildRefTable(t){
   const headRow = t.headers.map(h=>`<th>${h}</th>`).join("");
@@ -316,7 +323,7 @@ function renderCategory(catKey){
         ${legendHtml}
         <div class="chart-box"><canvas id="chart-${canvasId}"></canvas></div>
         ${refHtml}${noteHtml}
-        <div class="src">${d.source||""}</div>
+        <div class="src">${d.source||""}${d.lastUpdated?` <span class="last-updated">· Data verified current as of ${formatLastUpdated(d.lastUpdated)}</span>`:""}</div>
       </div>`;
 
     grid.appendChild(card);

@@ -115,6 +115,7 @@ h1{font-size:clamp(28px,4vw,42px);font-weight:600;margin:0 0 8px;}
 /* remove old standalone sub/src styles that are now inside header-text */
 .chart-card .sub{font-size:13px;color:var(--text-dim);margin:0 0 16px;}
 .chart-card .src{font-size:11px;color:var(--text-dim);margin-top:14px;border-top:1px solid var(--line);padding-top:10px;}
+.chart-card .src .last-updated{color:var(--text-dim);opacity:0.85;}
 .chart-box{position:relative;height:340px;}
 
 /* "what does this mean?" button */
