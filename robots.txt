@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://northwatchca.github.io/civic-dashboard-dev/sitemap.xml

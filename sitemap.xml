@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+  <url><loc>https://northwatchca.github.io/civic-dashboard-dev/</loc><priority>1.0</priority></url>
+  <url><loc>https://northwatchca.github.io/civic-dashboard-dev/thesis.html</loc><priority>0.8</priority></url>
+  <url><loc>https://northwatchca.github.io/civic-dashboard-dev/methodology.html</loc><priority>0.7</priority></url>
+  <url><loc>https://northwatchca.github.io/civic-dashboard-dev/timeline.html</loc><priority>0.8</priority></url>
+  <url><loc>https://northwatchca.github.io/civic-dashboard-dev/data/</loc><priority>0.9</priority></url>
+  <url><loc>https://northwatchca.github.io/civic-dashboard-dev/data/debt-fiscal.html</loc><priority>0.8</priority></url>
+  <url><loc>https://northwatchca.github.io/civic-dashboard-dev/data/demographics.html</loc><priority>0.8</priority></url>
+  <url><loc>https://northwatchca.github.io/civic-dashboard-dev/data/economy.html</loc><priority>0.8</priority></url>
+  <url><loc>https://northwatchca.github.io/civic-dashboard-dev/data/labour-inequality.html</loc><priority>0.8</priority></url>
+  <url><loc>https://northwatchca.github.io/civic-dashboard-dev/data/social-fabric.html</loc><priority>0.8</priority></url>
+  <url><loc>https://northwatchca.github.io/civic-dashboard-dev/data/resources.html</loc><priority>0.8</priority></url>
+  <url><loc>https://northwatchca.github.io/civic-dashboard-dev/data/compare.html</loc><priority>0.6</priority></url>
+  <url><loc>https://northwatchca.github.io/civic-dashboard-dev/data/map.html</loc><priority>0.7</priority></url>
+</urlset>
