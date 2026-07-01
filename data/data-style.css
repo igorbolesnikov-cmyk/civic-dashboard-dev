@@ -95,13 +95,12 @@ h1{font-size:clamp(28px,4vw,42px);font-weight:600;margin:0 0 8px;}
 .chart-card .src{font-size:11px;color:var(--text-dim);margin-top:14px;border-top:1px solid var(--line);padding-top:10px;}
 .chart-box{position:relative;height:340px;}
 
-/* info button */
+/* "what does this mean?" button */
 .info-btn{
   background:none;border:1px solid var(--line);color:var(--text-dim);
-  border-radius:50%;width:24px;height:24px;font-size:13px;cursor:pointer;
-  display:flex;align-items:center;justify-content:center;flex-shrink:0;
-  transition:border-color .15s,color .15s;font-style:normal;
-  font-family:serif;line-height:1;padding:0;
+  border-radius:16px;height:28px;padding:0 12px;font-size:12px;font-weight:600;
+  cursor:pointer;display:flex;align-items:center;justify-content:center;
+  flex-shrink:0;transition:border-color .15s,color .15s;white-space:nowrap;
 }
 .info-btn:hover{border-color:var(--accent);color:var(--accent);}
 
@@ -136,24 +135,26 @@ h1{font-size:clamp(28px,4vw,42px);font-weight:600;margin:0 0 8px;}
   font-size:11px;text-transform:uppercase;letter-spacing:0.7px;
   color:var(--accent);font-weight:600;margin:0 0 8px;
 }
-/* title row with verdict badge */
-.info-modal-top-row{display:flex;align-items:flex-start;justify-content:space-between;gap:14px;margin-bottom:12px;}
-.info-modal-top-row h4{font-size:15px;margin:0;color:var(--text);line-height:1.4;flex:1;}
-/* verdict badge */
-.verdict-badge{
-  position:relative;flex-shrink:0;
-  border:1px solid var(--accent);border-radius:6px;
-  padding:5px 10px;cursor:default;
+/* title row */
+.info-modal-top-row{margin-bottom:4px;}
+.info-modal-top-row h4{font-size:15px;margin:0;color:var(--text);line-height:1.4;}
+.info-modal-explain{font-size:13.5px;color:var(--text);line-height:1.65;margin:0 0 16px;}
+/* flat verdict block — no hover, no click, just visible */
+.info-modal-verdict{
+  border-left:3px solid var(--text-dim);border-radius:6px;
+  background:var(--bg);padding:11px 14px;margin:0 0 18px;
 }
-.verdict-label{font-size:11.5px;color:var(--accent);font-weight:600;white-space:nowrap;}
-.verdict-tooltip{
-  display:none;position:absolute;right:0;top:calc(100% + 8px);
-  background:#111110;color:#f0ede5;font-size:12.5px;line-height:1.55;
-  border-radius:8px;padding:12px 14px;width:260px;z-index:10001;
-  box-shadow:0 4px 20px rgba(0,0,0,0.25);
+.info-modal-verdict .verdict-tag{
+  display:block;font-size:11px;font-weight:700;letter-spacing:0.5px;
+  text-transform:uppercase;margin-bottom:5px;
 }
-.verdict-badge:hover .verdict-tooltip{display:block;}
-.info-modal-explain{font-size:13.5px;color:var(--text);line-height:1.65;margin:0 0 18px;}
+.info-modal-verdict p{margin:0;font-size:13.5px;line-height:1.6;color:var(--text);}
+.info-modal-verdict.v-bad{border-left-color:#8B3A2A;}
+.info-modal-verdict.v-bad .verdict-tag{color:#8B3A2A;}
+.info-modal-verdict.v-mixed{border-left-color:#9C7840;}
+.info-modal-verdict.v-mixed .verdict-tag{color:#9C7840;}
+.info-modal-verdict.v-context{border-left-color:#7a7670;}
+.info-modal-verdict.v-context .verdict-tag{color:#7a7670;}
 .info-modal-legend{border-top:1px solid var(--line);padding-top:16px;margin-top:4px;}
 .info-modal-legend-label{
   font-size:11px;text-transform:uppercase;letter-spacing:0.5px;

@@ -94,12 +94,12 @@ function initModal(){
     <p class="info-modal-tag">How to read this chart</p>
     <div class="info-modal-top-row">
       <h4 id="info-modal-title"></h4>
-      <div class="verdict-badge" id="verdict-badge">
-        <span class="verdict-label">Is this good or bad?</span>
-        <div class="verdict-tooltip" id="verdict-tooltip"></div>
-      </div>
     </div>
     <p class="info-modal-explain" id="info-modal-body"></p>
+    <div class="info-modal-verdict" id="info-modal-verdict" style="display:none">
+      <span class="verdict-tag" id="verdict-tag"></span>
+      <p id="verdict-text"></p>
+    </div>
     <div class="info-modal-legend" id="info-modal-legend" style="display:none"></div>
   </div>`;
   el.addEventListener("click",function(e){if(e.target===el)closeInfoModal();});
@@ -113,14 +113,28 @@ function openInfoModal(idx){
   document.getElementById("info-modal-title").textContent=m.title;
   document.getElementById("info-modal-body").textContent=m.explain||"No additional explanation available.";
 
-  // verdict badge
-  const badge=document.getElementById("verdict-badge");
-  const tip=document.getElementById("verdict-tooltip");
+  // verdict block — flat, always visible, no hover/click
+  const verdictBox=document.getElementById("info-modal-verdict");
+  const tagEl=document.getElementById("verdict-tag");
+  const textEl=document.getElementById("verdict-text");
   if(m.verdict){
-    tip.textContent=m.verdict;
-    badge.style.display="flex";
+    const dashIdx=m.verdict.indexOf(" — ");
+    let cat="",text=m.verdict;
+    if(dashIdx!==-1){
+      cat=m.verdict.slice(0,dashIdx).trim();
+      text=m.verdict.slice(dashIdx+3).trim();
+    }
+    const catUpper=cat.toUpperCase();
+    let cls="v-context",label=cat||"Context";
+    if(catUpper.indexOf("BAD")!==-1){cls="v-bad";label="Bad";}
+    else if(catUpper.indexOf("MIXED")!==-1){cls="v-mixed";label=catUpper.indexOf("POSITIVE")!==-1?"Mixed / Positive":"Mixed";}
+    else if(catUpper.indexOf("CONTEXT")!==-1){cls="v-context";label="Context";}
+    verdictBox.className="info-modal-verdict "+cls;
+    tagEl.textContent=label;
+    textEl.textContent=text;
+    verdictBox.style.display="";
   } else {
-    badge.style.display="none";
+    verdictBox.style.display="none";
   }
 
   const legendEl=document.getElementById("info-modal-legend");
@@ -222,7 +236,7 @@ function renderCategory(catKey){
           <p class="sub">${subtitle||""}</p>
         </div>
         <div class="chart-header-actions">
-          <button class="info-btn" onclick="event.stopPropagation();openInfoModal(${modalIdx})" title="Explain this chart">ⓘ</button>
+          <button class="info-btn" onclick="event.stopPropagation();openInfoModal(${modalIdx})">What does this mean?</button>
           <span class="toggle-arrow">▼</span>
         </div>
       </div>
