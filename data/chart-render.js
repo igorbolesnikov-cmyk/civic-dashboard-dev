@@ -84,6 +84,27 @@ function buildHtmlLegend(seriesNames,legendExplain){
 }
 
 /* ── modal system ────────────────────────────────────────── */
+const CATEGORY_PAGES={
+  economy:"economy.html",
+  debt_fiscal:"debt-fiscal.html",
+  demographics:"demographics.html",
+  labour_inequality:"labour-inequality.html",
+  social_fabric:"social-fabric.html",
+  resources:"resources.html"
+};
+
+function resolveChartRef(id){
+  for(const catKey in CHART_CONFIG){
+    const cfg=CHART_CONFIG[catKey];
+    const c=cfg.charts.find(ch=>(ch.id||ch.key)===id);
+    if(c){
+      const d=CANADA_DATA[c.key];
+      return {id, title:c.title||(d&&d.title)||id, page:CATEGORY_PAGES[catKey]};
+    }
+  }
+  return null;
+}
+
 let _modalCharts=[];
 let _modalInited=false;
 
@@ -109,6 +130,7 @@ function initModal(){
       <p id="threshold-text"></p>
     </div>
     <div class="info-modal-legend" id="info-modal-legend" style="display:none"></div>
+    <div class="info-modal-related" id="info-modal-related" style="display:none"></div>
   </div>`;
   el.addEventListener("click",function(e){if(e.target===el)closeInfoModal();});
   document.body.appendChild(el);
@@ -170,6 +192,21 @@ function openInfoModalData(m){
   }else{
     legendEl.style.display="none";
   }
+  const relatedEl=document.getElementById("info-modal-related");
+  if(m.relatedCharts&&m.relatedCharts.length){
+    const currentPage=location.pathname.split("/").pop();
+    const links=m.relatedCharts.map(id=>{
+      const ref=resolveChartRef(id);
+      if(!ref)return "";
+      const href=(ref.page===currentPage||!ref.page)?`?chart=${encodeURIComponent(ref.id)}`:`${ref.page}?chart=${encodeURIComponent(ref.id)}`;
+      return `<a class="related-chart-link" href="${href}">${ref.title}</a>`;
+    }).join("");
+    relatedEl.innerHTML=`<p class="info-modal-related-label">Related charts</p><div class="related-chart-links">${links}</div>`;
+    relatedEl.style.display="";
+  }else{
+    relatedEl.style.display="none";
+  }
+
   lockBodyScroll();
   document.getElementById("info-modal-overlay").classList.add("active");
 }
@@ -333,7 +370,7 @@ function renderCategory(catKey){
       name,color:PALETTE[i%PALETTE.length],
       explain:legendExplain[name]||""}));
 
-    _modalCharts.push({title,explain,verdict,legendItems,citedThreshold:c.citedThreshold||""});
+    _modalCharts.push({title,explain,verdict,legendItems,citedThreshold:c.citedThreshold||"",relatedCharts:c.relatedCharts||[]});
 
     _csvExportMap[canvasId]={dataKey:c.key,seriesNames:shownSeries,xLabel:d.xLabel||"",title};
 

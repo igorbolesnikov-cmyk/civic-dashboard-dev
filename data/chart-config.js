@@ -3,7 +3,7 @@ const CHART_CONFIG = {
     label: "Economy & Productivity",
     desc: "Output, sectoral composition, productivity relative to peers, and trade exposure.",
     charts: [
-      { key: "living_standards", type: "line",
+      { key: "living_standards", type: "line", relatedCharts: ["productivity_g7", "capital_allocation", "gdp_by_sector"],
         explain: "This chart asks the most basic question about an economy: is each person actually getting better off? Total GDP almost always rises because the population grows. The real test is GDP per capita — total output divided by the number of people. When these two lines diverge — GDP rising while GDP per capita flattens or falls — it means growth is coming from adding more people, not from each person becoming more productive or prosperous. Since around 2021, per-capita GDP has been falling while total GDP keeps climbing.",
         verdict: "BAD — GDP per person is falling while total GDP keeps rising. Growth is coming from adding more people, not from each Canadian becoming more prosperous. The average Canadian is getting poorer in real terms.",
         legendExplain: {
@@ -11,7 +11,7 @@ const CHART_CONFIG = {
           "Real GDP Per Capita (Index, 1961=100)": "Economic output divided by the number of Canadians. This is the real measure of whether the average person is getting richer. When this falls while Total GDP rises, growth is population-driven — not prosperity-driven."
         }
       },
-      { key: "gdp_by_sector", type: "line",
+      { key: "gdp_by_sector", type: "line", relatedCharts: ["capital_allocation", "sector_snapshot", "productivity_g7"],
         explain: "This chart tracks which industries make up Canada's economy and how those shares have shifted since 1997. The critical trend: Real Estate has grown from 10% to nearly 14% of GDP — now the single largest sector in the country — while Manufacturing has fallen from 16% to under 10%. Canada has steadily moved capital from making things to owning and renting property.",
         verdict: "BAD — Real Estate, which produces no goods of equivalent value, is now Canada's single largest industry sector. Manufacturing, which creates real productive wealth, has been declining for over 25 years.",
         legendExplain: {
@@ -27,7 +27,7 @@ const CHART_CONFIG = {
           "Prof & Tech Services (%)": "Lawyers, accountants, engineers, software developers, and consultants."
         }
       },
-      { key: "capital_allocation", type: "line",
+      { key: "capital_allocation", type: "line", relatedCharts: ["productivity_g7", "corporate_concentration", "sector_snapshot"],
         explain: "Focused on the five sectors that best show where investment money has moved over 30 years. The crossover around 2012 — when Real Estate surpassed Manufacturing — is the clearest signal of Canada's economic restructuring: capital moved from productive industry into property. Houses do not make workers more productive; factories and equipment do.",
         verdict: "BAD — Investment dollars that should go into factories and technology are flowing into property instead. This directly suppresses worker productivity and future wage growth.",
         legendExplain: {
@@ -38,14 +38,14 @@ const CHART_CONFIG = {
           "Finance & Insurance (%)": "Financial services. Relatively stable share."
         }
       },
-      { key: "sector_snapshot", type: "horizontalBar",
+      { key: "sector_snapshot", type: "horizontalBar", relatedCharts: ["gdp_by_sector", "capital_allocation"],
         explain: "A single-year snapshot of every major industry in Canada ranked by their share of GDP. Real Estate at 13.5% is larger than Manufacturing (9.8%) and Technology combined. This is the 2026 scorecard of where Canada's economy actually lives — not where politicians say it should be.",
         verdict: "BAD — Real Estate is larger than Manufacturing. A healthy, productive economy invests in making things. Canada has been moving the opposite direction for decades.",
         legendExplain: {
           "Share of Total GDP (%)": "How much of Canada's total economic output that industry accounts for in 2026."
         }
       },
-      { key: "productivity_g7", type: "line",
+      { key: "productivity_g7", type: "line", relatedCharts: ["capital_allocation", "corporate_concentration", "living_standards"],
         explain: "How efficiently each G7 country turns labour hours into economic output, indexed to 2000 = 100. Canada ranks last in the G7 for productivity growth over this entire period. The widening gap between the Canadian and US lines is the root cause of stagnant real wages: if workers produce less per hour, there is less wealth to distribute. Low productivity cannot be fixed by immigration or deficit spending — it requires investment in equipment, technology, and skills.",
         verdict: "BAD — Canada ranks dead last among G7 nations in productivity growth. When workers produce less per hour, there is less wealth to distribute as wages — the root cause of stagnant living standards.",
         legendExplain: {
@@ -58,7 +58,7 @@ const CHART_CONFIG = {
           "Italy": "Italy's GDP per hour worked."
         }
       },
-      { key: "trade", id: "trade", type: "line",
+      { key: "trade", id: "trade", type: "line", relatedCharts: ["energy", "productivity_g7", "trade-fx"],
         seriesSubset: ["Exports (% of GDP)", "Imports (% of GDP)", "US Share of Exports (%)"],
         title: "Canada: Trade as % of GDP & US Export Concentration (2000–2026) | %",
         subtitle: "Exports, imports, and the share of exports going to the US — all percentages. ~75% of goods exports go to one country.",
@@ -70,7 +70,7 @@ const CHART_CONFIG = {
           "US Share of Exports (%)": "What percentage of Canada's total exports go specifically to the United States. The higher this number, the more Canada's export economy depends on a single foreign buyer."
         }
       },
-      { key: "trade", id: "trade-balance", type: "line",
+      { key: "trade", id: "trade-balance", type: "line", relatedCharts: ["trade", "energy", "trade-fx"],
         seriesSubset: ["Current Account Balance ($B)", "Current Account Balance — Real (2024 CAD $B)"],
         title: "Canada: Current Account Balance, Nominal vs. Real (2000–2026) | $B",
         subtitle: "Nominal balance (as reported) vs. inflation-adjusted 2024 dollars. Persistent deficit means Canada finances current consumption by borrowing from or selling assets to foreigners.",
@@ -82,7 +82,7 @@ const CHART_CONFIG = {
           "Current Account Balance — Real (2024 CAD $B)": "The same balance restated in constant 2024 dollars, removing the effect of inflation."
         }
       },
-      { key: "trade", id: "trade-fx", type: "line",
+      { key: "trade", id: "trade-fx", type: "line", relatedCharts: ["trade", "trade-balance", "energy-wti"],
         seriesSubset: ["CAD/USD Exchange Rate"],
         title: "Canada: CAD/USD Exchange Rate (2000–2026)",
         subtitle: "Canadian dollar value relative to the US dollar.",
@@ -99,7 +99,7 @@ const CHART_CONFIG = {
     label: "Debt & Fiscal",
     desc: "Household and sovereign debt, housing costs, monetary policy, federal spending, and government spending efficiency.",
     charts: [
-      { key: "budget_balance_history", id: "budget_balance_history", type: "line",
+      { key: "budget_balance_history", id: "budget_balance_history", type: "line", relatedCharts: ["fed_debt_deficit", "household_debt", "govt_efficiency"],
         sectionHeader: "Federal & Provincial Budget History",
         sectionSubhead: "Budget balance as % of GDP — Federal, Ontario, Quebec, Alberta. 1983-84 to 2024-25.",
         explain: "Budgetary balance — the gap between what a government takes in and what it spends — expressed as a percentage of the size of its economy (GDP). This normalizes for inflation and economic growth over four decades, making 1985 and 2025 directly comparable. Positive values are surpluses; negative values are deficits. Shown for the federal government plus the three largest provincial economies: Ontario, Quebec, and Alberta.",
@@ -112,14 +112,14 @@ const CHART_CONFIG = {
           "Alberta (% of GDP)": "Alberta's annual budgetary surplus or deficit, as a percentage of Alberta's GDP. Heavily influenced by resource royalty revenue, which swings with commodity prices."
         }
       },
-      { key: "household_debt", type: "line",
+      { key: "household_debt", type: "line", relatedCharts: ["fed_debt_deficit", "housing-ratio", "inflation_boc"],
         explain: "This measures how much debt Canadian households carry relative to their annual income. A ratio of 100% means households owe exactly one full year's income. Canada's ratio reached 179.6% — nearly two full years of income owed, before a single bill is paid. This is one of the highest ratios in the developed world and leaves households extremely vulnerable to interest rate increases or job loss.",
         verdict: "BAD — At 179.6%, Canadians carry one of the heaviest household debt loads in the developed world. A single job loss or rate increase can push households into financial crisis.",
         legendExplain: {
           "Household Debt-to- Disposable Income (%)": "Total household debt (mortgages, car loans, credit cards, lines of credit) divided by after-tax annual income. 179.6% means Canadians owe $1.80 for every $1.00 they earn per year."
         }
       },
-      { key: "fed_debt_deficit", id: "fed_debt_deficit", type: "line",
+      { key: "fed_debt_deficit", id: "fed_debt_deficit", type: "line", relatedCharts: ["budget_balance_history", "household_debt", "inflation_boc"],
         seriesSubset: ["Fed Net Debt (% of GDP)"],
         title: "Canada: Federal Net Debt (1970–2026) | % of GDP",
         subtitle: "Federal net debt as a share of GDP. The 1995 fiscal crisis (peak ~67%) and the 2020 COVID shock are the two defining inflection points.",
@@ -130,7 +130,7 @@ const CHART_CONFIG = {
           "Fed Net Debt (% of GDP)": "The federal government's total debt minus its financial assets, expressed as a percentage of GDP. A rising number means the government is borrowing faster than the economy grows."
         }
       },
-      { key: "fed_debt_deficit", id: "fed_debt_deficit-balance", type: "line",
+      { key: "fed_debt_deficit", id: "fed_debt_deficit-balance", type: "line", relatedCharts: ["budget_balance_history", "fed_debt_deficit"],
         seriesSubset: ["Annual Surplus/ Deficit ($B)", "Annual Surplus/ Deficit — Real (2024 CAD $B)"],
         title: "Canada: Annual Federal Surplus / Deficit, Nominal vs. Real (1970–2026) | $B",
         subtitle: "Nominal dollars (as originally reported) vs. inflation-adjusted 2024 dollars. Over a 56-year span, nominal comparisons alone are misleading — this shows both.",
@@ -141,7 +141,7 @@ const CHART_CONFIG = {
           "Annual Surplus/ Deficit — Real (2024 CAD $B)": "The same figure restated in constant 2024 dollars using the Statistics Canada CPI, removing the effect of inflation so different decades can be compared directly."
         }
       },
-      { key: "housing", id: "housing", type: "line",
+      { key: "housing", id: "housing", type: "line", relatedCharts: ["housing-ratio", "household_debt", "population-rate"],
         seriesSubset: ["House Price Index (2005=100)"],
         title: "Canada: House Price Index (1990–2026) | 2005 = 100",
         subtitle: "National composite house price index, indexed to 2005.",
@@ -151,7 +151,7 @@ const CHART_CONFIG = {
           "House Price Index (2005=100)": "The average price of a Canadian home relative to 2005 prices. 100 = same price as 2005. 400 = four times more expensive than in 2005."
         }
       },
-      { key: "housing", id: "housing-dollars", type: "line",
+      { key: "housing", id: "housing-dollars", type: "line", relatedCharts: ["housing", "labour_market-earnings", "housing-ratio"],
         seriesSubset: ["Median Household Income ($000s)", "Avg Home Price ($000s)", "Median Household Income — Real (2024 CAD $000s)", "Avg Home Price — Real (2024 CAD $000s)"],
         title: "Canada: Median Income vs. Average Home Price, Nominal & Real (1990–2026) | $000s",
         subtitle: "Solid nominal dollars (as reported) and inflation-adjusted 2024 dollars, same units — the gap between income and price lines persists in both.",
@@ -164,7 +164,7 @@ const CHART_CONFIG = {
           "Avg Home Price — Real (2024 CAD $000s)": "Average home price restated in constant 2024 dollars, removing the effect of inflation."
         }
       },
-      { key: "housing", id: "housing-ratio", type: "line",
+      { key: "housing", id: "housing-ratio", type: "line", relatedCharts: ["housing", "household_debt", "population-rate"],
         seriesSubset: ["Price-to- Income Ratio"],
         title: "Canada: House Price-to-Income Ratio (1990–2026)",
         subtitle: "Average home price divided by median household income. Rose from 3.3× (1996) to 11.8× (2021).",
@@ -175,7 +175,7 @@ const CHART_CONFIG = {
           "Price-to- Income Ratio": "How many full years of median household income it would cost to buy the average home, at that year's prices. The old rule of thumb was 3–4×. Above 5× is generally considered unaffordable. Canada hit 11.8× in 2021."
         }
       },
-      { key: "inflation_boc", type: "line",
+      { key: "inflation_boc", type: "line", relatedCharts: ["fed_debt_deficit", "household_debt", "labour_market-earnings"],
         explain: "From 2009 to 2021, the Bank of Canada held interest rates near zero — making borrowing effectively free for 12 consecutive years. This directly caused the household debt and housing price explosions shown in other charts. Then in 2022, rates rose from 0.25% to 5.0% in the fastest tightening cycle in 40 years. Every variable-rate mortgage and line of credit repriced almost overnight. Canadians who borrowed heavily when rates were near zero are now paying the bill.",
         verdict: "MIXED — Twelve years of near-zero rates made borrowing cheap but inflated the debt and housing crises. The rapid 2022 rate hike then crushed borrowers. Neither extreme was good for ordinary Canadians.",
         legendExplain: {
@@ -184,14 +184,14 @@ const CHART_CONFIG = {
           "Real Interest Rate (%)": "Interest rate minus inflation. When negative, borrowing is effectively free in real terms — which mechanically incentivises debt accumulation."
         }
       },
-      { key: "dept_funding", type: "horizontalBar",
+      { key: "dept_funding", type: "horizontalBar", relatedCharts: ["dept_spending_hist", "fed_debt_deficit", "govt_efficiency"],
         explain: "What the federal government allocates to each major department. National Defence is by far the largest operational department. But this chart covers only about $143 billion of a $500+ billion federal budget — the rest flows through the Department of Finance as transfer payments (healthcare to provinces, equalization, debt servicing) that do not appear here at all.",
         verdict: "CONTEXT — These amounts cover only ~$143B of a $500B+ total federal budget. Healthcare transfers and social programs are not included here.",
         legendExplain: {
           "Funding (CAD Billions)": "The budgetary authority allocated to each department in the 2026–27 Main Estimates — the amount they are authorised to spend."
         }
       },
-      { key: "dept_spending_hist", type: "line",
+      { key: "dept_spending_hist", type: "line", relatedCharts: ["dept_funding", "dept_spending_hist-total-real", "govt_efficiency"],
         seriesSubset: ["National Defence ($B)", "Health Canada ($B)", "Employment & Social Dev ($B)", "Indigenous Services* ($B)", "Global Affairs ($B)"],
         subtitle: "Nominal dollars (as reported each year) — not adjusted for inflation. See the Total spending chart below for a real-dollar comparison.",
         explain: "How the five largest departments with consistent historical records have grown since 2000, in nominal dollars. Key context: Health Canada's line looks small because the real federal healthcare money ($54B+ Canada Health Transfer) flows directly to provinces through the Department of Finance, not through Health Canada. The ESDC spike in 2020 is COVID emergency transfers (CERB, wage subsidies) — a one-time event, not a permanent level. These figures are not adjusted for inflation; a meaningful share of the nominal growth since 2000 reflects rising prices rather than expanded programs.",
@@ -204,7 +204,7 @@ const CHART_CONFIG = {
           "Global Affairs ($B)": "Foreign affairs, international trade, and development assistance."
         }
       },
-      { key: "dept_spending_hist", id: "dept_spending_hist-total-real", type: "line",
+      { key: "dept_spending_hist", id: "dept_spending_hist-total-real", type: "line", relatedCharts: ["dept_spending_hist", "govt_efficiency"],
         seriesSubset: ["TOTAL 5 Depts ($B)", "TOTAL 5 Depts — Real (2024 CAD $B)"],
         title: "Canada: Combined Spending, 5 Largest Departments — Nominal vs. Real (2000–2027) | $B",
         subtitle: "Nominal total (as reported) vs. inflation-adjusted 2024 dollars.",
@@ -216,7 +216,7 @@ const CHART_CONFIG = {
         }
       }
 ,
-      { key: "govt_efficiency", id: "govt_efficiency-health$", type: "line", showRef: true,
+      { key: "govt_efficiency", id: "govt_efficiency-health$", type: "line", relatedCharts: ["govt_efficiency-life", "govt_efficiency-value", "dept_spending_hist"], showRef: true,
         seriesSubset: ["Health Spend per Capita ($)", "Health Spend per Capita — Real (2024 CAD $)"],
         title: "Canada: Health Spending per Capita, Nominal vs. Real (2000–2026) | $",
         subtitle: "Nominal spend (as reported) vs. inflation-adjusted 2024 dollars.",
@@ -227,7 +227,7 @@ const CHART_CONFIG = {
           "Health Spend per Capita — Real (2024 CAD $)": "The same per-capita spend restated in constant 2024 dollars, removing the effect of inflation."
         }
       },
-      { key: "govt_efficiency", id: "govt_efficiency-infra$", type: "line",
+      { key: "govt_efficiency", id: "govt_efficiency-infra$", type: "line", relatedCharts: ["govt_efficiency", "dept_spending_hist"],
         seriesSubset: ["Infra Spend ($B)", "Infra Spend — Real (2024 CAD $B)"],
         title: "Canada: Infrastructure Spending, Nominal vs. Real (2000–2026) | $B",
         subtitle: "Nominal spend (as reported) vs. inflation-adjusted 2024 dollars.",
@@ -238,7 +238,7 @@ const CHART_CONFIG = {
           "Infra Spend — Real (2024 CAD $B)": "The same infrastructure investment restated in constant 2024 dollars, removing the effect of inflation."
         }
       },
-      { key: "govt_efficiency", id: "govt_efficiency-value", type: "line",
+      { key: "govt_efficiency", id: "govt_efficiency-value", type: "line", relatedCharts: ["govt_efficiency-health$", "govt_efficiency-life"],
         seriesSubset: ["Health Value Score ($/yr)"],
         title: "Canada: Health Value Score (2000–2026) | $ per Life-Year",
         subtitle: "Cost per life-year of health spending — falling is bad here, it means less value per dollar.",
@@ -248,7 +248,7 @@ const CHART_CONFIG = {
           "Health Value Score ($/yr)": "A derived measure of cost-effectiveness — how much health outcome improvement each dollar of spending produces. Falling = declining efficiency. The system is getting more expensive without getting proportionally better."
         }
       },
-      { key: "govt_efficiency", id: "govt_efficiency-life", type: "line",
+      { key: "govt_efficiency", id: "govt_efficiency-life", type: "line", relatedCharts: ["govt_efficiency-health$", "govt_efficiency-value"],
         seriesSubset: ["Life Expect. (Years)"],
         title: "Canada: Life Expectancy (2000–2026) | Years",
         subtitle: "Average life expectancy at birth.",
@@ -258,7 +258,7 @@ const CHART_CONFIG = {
           "Life Expect. (Years)": "Average number of years a newborn Canadian is expected to live, based on current mortality rates."
         }
       },
-      { key: "govt_efficiency", id: "govt_efficiency", type: "line",
+      { key: "govt_efficiency", id: "govt_efficiency", type: "line", relatedCharts: ["fed_debt_deficit", "dept_spending_hist-total-real"],
         seriesSubset: ["Infra Quality Index (0-100)", "Pub Sector Productivity Idx"],
         title: "Canada: Infrastructure Quality & Public Sector Productivity (2000–2026) | Index 0–100",
         subtitle: "Same 0–100 index scale, directly comparable. Both declining despite rising spend on the charts above.",
@@ -276,7 +276,7 @@ const CHART_CONFIG = {
     label: "Demographics",
     desc: "Population growth, fertility, and provincial divergence.",
     charts: [
-      { key: "population", id: "population", type: "line",
+      { key: "population", id: "population", type: "line", relatedCharts: ["fertility", "population-rate", "labour_market"],
         seriesSubset: ["Pop Growth (000s)", "Permanent Residents (000s)", "Non-Permanent Residents (000s)"],
         title: "Canada: Population Growth & Immigration Flows (1990–2026) | Thousands",
         subtitle: "Annual net population growth, permanent resident admissions, and non-permanent residents (NPR) — same unit (000s). The post-2022 NPR surge explains most of the per-capita GDP divergence shown elsewhere.",
@@ -288,7 +288,7 @@ const CHART_CONFIG = {
           "Non-Permanent Residents (000s)": "International students, temporary foreign workers, and asylum claimants present in Canada without permanent status. Surged dramatically after 2022."
         }
       },
-      { key: "population", id: "population-total", type: "line",
+      { key: "population", id: "population-total", type: "line", relatedCharts: ["population", "fertility"],
         seriesSubset: ["Total Population (Millions)"],
         title: "Canada: Total Population (1990–2026) | Millions",
         subtitle: "Total resident population.",
@@ -298,7 +298,7 @@ const CHART_CONFIG = {
           "Total Population (Millions)": "The number of people living in Canada, including citizens, permanent residents, and non-permanent residents."
         }
       },
-      { key: "population", id: "population-rate", type: "line",
+      { key: "population", id: "population-rate", type: "line", relatedCharts: ["fertility-dependency", "housing", "labour_market"],
         seriesSubset: ["Pop Growth Rate (%)", "Immigration Share of Growth (%)"],
         title: "Canada: Population Growth Rate & Immigration's Share of Growth (1990–2026) | %",
         subtitle: "Annual population growth rate and immigration's share of total growth — both percentages.",
@@ -309,7 +309,7 @@ const CHART_CONFIG = {
           "Immigration Share of Growth (%)": "What percentage of population growth comes from immigration rather than natural increase. Near 100% means Canada's births barely exceed deaths — the country grows only because people move here."
         }
       },
-      { key: "fertility", id: "fertility", type: "line",
+      { key: "fertility", id: "fertility", type: "line", relatedCharts: ["fertility-dependency", "social_cohesion", "population"],
         seriesSubset: ["Total Fertility Rate (TFR)", "Replacement Threshold", "Immigrant TFR", "Canadian-Born TFR", "2nd-Gen TFR Convergence"],
         title: "Canada: Fertility Rate (1960–2026) | Births per Woman",
         subtitle: "TFR vs. the 2.1 replacement threshold, split by immigrant, Canadian-born, and second-generation cohorts.",
@@ -324,7 +324,7 @@ const CHART_CONFIG = {
           "2nd-Gen TFR Convergence": "Fertility rate of the children of immigrants. Converges toward the Canadian-born rate within one generation — which is why immigration is not a long-term demographic fix."
         }
       },
-      { key: "fertility", id: "fertility-dependency", type: "line",
+      { key: "fertility", id: "fertility-dependency", type: "line", relatedCharts: ["fertility", "population-rate"],
         seriesSubset: ["Age Dependency Ratio (%)"],
         title: "Canada: Age Dependency Ratio (1960–2026) | %",
         subtitle: "Ratio of dependents (children + seniors) to working-age population.",
@@ -334,7 +334,7 @@ const CHART_CONFIG = {
           "Age Dependency Ratio (%)": "The number of dependents (children under 15 + seniors over 65) per 100 working-age people (ages 15–64). Rising ratio means the working population is shrinking relative to the people they support through taxes and transfers."
         }
       },
-      { key: "provincial", type: "horizontalBar",
+      { key: "provincial", type: "horizontalBar", relatedCharts: ["population", "energy"],
         explain: "Canada is not one economy — it is ten very different economies sharing a federal system. Alberta's GDP per capita ($88,000) is more than double New Brunswick's ($43,000). Ontario — supposedly the economic engine — carries $412 billion in provincial debt and is losing population to Alberta. BC's average home price ($1.128M) is three times Saskatchewan's ($352K). National averages hide all of this variation.",
         verdict: "CONTEXT — Alberta's GDP per capita is more than double New Brunswick's. National averages hide these structural imbalances within Confederation. This is a map of how unequal Canada's regional economies are.",
         legendExplain: {
@@ -354,7 +354,7 @@ const CHART_CONFIG = {
     label: "Labour & Inequality",
     desc: "Employment, wages, wealth distribution, and corporate concentration.",
     charts: [
-      { key: "labour_market", id: "labour_market", type: "line",
+      { key: "labour_market", id: "labour_market", type: "line", relatedCharts: ["labour_market-earnings", "population-rate", "productivity_g7"],
         seriesSubset: ["Unemployment Rate (%)", "Labour Force Participation (%)", "Real Wage Growth (% YoY)", "Youth Unemp. Rate (%)"],
         title: "Canada: Labour Market Rates (2000–2026) | %",
         subtitle: "Unemployment, participation, real wage growth, and youth unemployment — all percentages. Participation falling while unemployment looks stable is the key signal.",
@@ -367,7 +367,7 @@ const CHART_CONFIG = {
           "Youth Unemp. Rate (%)": "Unemployment rate for Canadians aged 15–24. Consistently higher than the adult rate. A rising youth unemployment rate means the economy is failing to absorb new workers."
         }
       },
-      { key: "labour_market", id: "labour_market-earnings", type: "line",
+      { key: "labour_market", id: "labour_market-earnings", type: "line", relatedCharts: ["labour_market", "wealth_inequality", "inflation_boc"],
         seriesSubset: ["Avg Weekly Earnings ($)"],
         title: "Canada: Average Weekly Earnings (2000–2026) | $",
         subtitle: "Nominal average weekly earnings.",
@@ -377,7 +377,7 @@ const CHART_CONFIG = {
           "Avg Weekly Earnings ($)": "Average weekly gross pay across all Canadian industries and job types. In current (nominal) dollars — not adjusted for inflation. A rising line here does not mean workers are better off if inflation is rising faster."
         }
       },
-      { key: "wealth_inequality", id: "wealth_inequality-gini", type: "line",
+      { key: "wealth_inequality", id: "wealth_inequality-gini", type: "line", relatedCharts: ["wealth_inequality", "corporate_concentration"],
         seriesSubset: ["Gini Coefficient"],
         title: "Canada: Gini Coefficient (1976–2026)",
         subtitle: "Income inequality index, 0 (perfect equality) to 1 (perfect inequality).",
@@ -387,7 +387,7 @@ const CHART_CONFIG = {
           "Gini Coefficient": "A number between 0 and 1. 0 = perfect equality. 1 = perfect inequality (one person has everything). Most developed countries sit between 0.25 and 0.45. A rising Gini = widening gap between rich and everyone else."
         }
       },
-      { key: "wealth_inequality", id: "wealth_inequality", type: "line",
+      { key: "wealth_inequality", id: "wealth_inequality", type: "line", relatedCharts: ["corporate_concentration", "labour_market-earnings", "education-debt"],
         seriesSubset: ["Top 1% Income Share (%)", "Top 10% Income Share (%)", "Bottom 50% Income Share (%)", "Labour Share of GDP (%)", "Capital Share of GDP (%)"],
         title: "Canada: Income & Capital Distribution (1976–2026) | %",
         subtitle: "Income shares and the labour-vs-capital split of GDP — all percentages, directly comparable.",
@@ -401,7 +401,7 @@ const CHART_CONFIG = {
           "Capital Share of GDP (%)": "The percentage of total economic output flowing to capital owners — as profits, dividends, rents, and interest. Rising capital share means asset owners capture more of economic growth."
         }
       },
-      { key: "corporate_concentration", id: "corporate_concentration-rates", type: "line",
+      { key: "corporate_concentration", id: "corporate_concentration-rates", type: "line", relatedCharts: ["corporate_concentration", "productivity_g7"],
         seriesSubset: ["Corporate Profit Margin (%)", "Effective Corp Tax Rate (%)", "Statutory Corp Tax Rate (%)", "Tax Gap (Stat−Eff, %)"],
         title: "Canada: Corporate Profit Margins & Tax Rates (1990–2026) | %",
         subtitle: "Profit margins, statutory and effective tax rates, and the gap between them — all percentages.",
@@ -414,7 +414,7 @@ const CHART_CONFIG = {
           "Tax Gap (Stat−Eff, %)": "The difference between the official rate and what is actually paid. This is the legal tax avoidance gap — real money not collected."
         }
       },
-      { key: "corporate_concentration", id: "corporate_concentration", type: "line", showRef: true,
+      { key: "corporate_concentration", id: "corporate_concentration", type: "line", relatedCharts: ["productivity_g7", "wealth_inequality", "corporate_concentration-real"], showRef: true,
         seriesSubset: ["Dividends & Buybacks ($B)", "Productive CapEx ($B)"],
         title: "Canada: Dividends & Buybacks vs. Productive Investment (1990–2026) | $B",
         subtitle: "Nominal dollars, same unit — directly comparable to each other within a given year. See below for the inflation-adjusted trend over time.",
@@ -425,7 +425,7 @@ const CHART_CONFIG = {
           "Productive CapEx ($B)": "Capital expenditure on productive physical assets: machinery, equipment, research and development, factories, in the dollars of each year (nominal)."
         }
       },
-      { key: "corporate_concentration", id: "corporate_concentration-real", type: "line",
+      { key: "corporate_concentration", id: "corporate_concentration-real", type: "line", relatedCharts: ["corporate_concentration", "productivity_g7"],
         seriesSubset: ["Dividends & Buybacks — Real (2024 CAD $B)", "Productive CapEx — Real (2024 CAD $B)"],
         title: "Canada: Dividends & Buybacks vs. Productive Investment, Real Terms (1990–2026) | 2024 CAD $B",
         subtitle: "Both series restated in constant 2024 dollars, removing the effect of inflation.",
@@ -443,7 +443,7 @@ const CHART_CONFIG = {
     label: "Social Fabric",
     desc: "Trust, civic participation, and education outcomes.",
     charts: [
-      { key: "social_cohesion", id: "social_cohesion", type: "line",
+      { key: "social_cohesion", id: "social_cohesion", type: "line", relatedCharts: ["fertility", "wealth_inequality", "labour_market"],
         seriesSubset: ["Social Trust (% agree)", "Voter Turnout (Fed %)", "Volunteer Rate (%)", "Loneliness Index (%)", "Self-Reported Mental Health (%)"],
         title: "Canada: Social Trust & Civic Participation (1985–2026) | %",
         subtitle: "Social trust, voter turnout, volunteering, loneliness, and self-reported mental health — all percentages, directly comparable.",
@@ -457,7 +457,7 @@ const CHART_CONFIG = {
           "Self-Reported Mental Health (%)": "Percentage of Canadians rating their own mental health as 'excellent' or 'very good.' Declining."
         }
       },
-      { key: "social_cohesion", id: "social_cohesion-opioid", type: "line",
+      { key: "social_cohesion", id: "social_cohesion-opioid", type: "line", relatedCharts: ["social_cohesion", "wealth_inequality"],
         seriesSubset: ["Opioid Deaths (Annual)"],
         title: "Canada: Opioid Deaths (1985–2026) | Annual Count",
         subtitle: "Annual opioid-related deaths, raw count.",
@@ -467,7 +467,7 @@ const CHART_CONFIG = {
           "Opioid Deaths (Annual)": "Number of Canadians who died from opioid overdose that year — including prescription opioids, heroin, fentanyl, and related drugs. Raw count, not per capita."
         }
       },
-      { key: "education", id: "education-tuition", type: "line",
+      { key: "education", id: "education-tuition", type: "line", relatedCharts: ["education-debt", "wealth_inequality"],
         seriesSubset: ["Avg Annual Tuition ($)", "Avg Annual Tuition — Real (2024 CAD $)"],
         title: "Canada: Average Annual Tuition, Nominal vs. Real (1990–2026) | $",
         subtitle: "Nominal tuition (as charged that year) vs. inflation-adjusted 2024 dollars.",
@@ -478,7 +478,7 @@ const CHART_CONFIG = {
           "Avg Annual Tuition — Real (2024 CAD $)": "The same tuition figure restated in constant 2024 dollars, removing the effect of inflation."
         }
       },
-      { key: "education", id: "education-debt", type: "line",
+      { key: "education", id: "education-debt", type: "line", relatedCharts: ["education-tuition", "wealth_inequality", "labour_market-earnings"],
         seriesSubset: ["Avg Student Debt at Grad ($)", "Avg Student Debt at Grad — Real (2024 CAD $)"],
         title: "Canada: Average Student Debt at Graduation, Nominal vs. Real (1990–2026) | $",
         subtitle: "Nominal debt (as reported) vs. inflation-adjusted 2024 dollars.",
@@ -489,7 +489,7 @@ const CHART_CONFIG = {
           "Avg Student Debt at Grad — Real (2024 CAD $)": "The same debt figure restated in constant 2024 dollars, removing the effect of inflation."
         }
       },
-      { key: "education", id: "education-enrollment", type: "line",
+      { key: "education", id: "education-enrollment", type: "line", relatedCharts: ["education-match", "labour_market"],
         seriesSubset: ["Undergrad Enrollment (000s)", "Trades/Appren. Enrollment (000s)"],
         title: "Canada: Undergraduate vs. Trades Enrollment (1990–2026) | Thousands",
         subtitle: "Same unit, directly comparable — the diverging trend lines are the structural underinvestment in trades.",
@@ -500,7 +500,7 @@ const CHART_CONFIG = {
           "Trades/Appren. Enrollment (000s)": "Number of people registered in apprenticeship and trades training programs. In thousands. Falling while university enrollment rises."
         }
       },
-      { key: "education", id: "education-pisa", type: "line",
+      { key: "education", id: "education-pisa", type: "line", relatedCharts: ["education-enrollment", "education-match"],
         seriesSubset: ["PISA Math Score"],
         title: "Canada: PISA Math Score (2000–2024)",
         subtitle: "OECD PISA international math literacy score.",
@@ -510,7 +510,7 @@ const CHART_CONFIG = {
           "PISA Math Score": "Canada's average score on the OECD's international mathematics assessment. Scores are comparable across countries and over time. Tested every three years — years without a test show no data point."
         }
       },
-      { key: "education", id: "education-match", type: "line",
+      { key: "education", id: "education-match", type: "line", relatedCharts: ["education-enrollment", "labour_market-earnings"],
         seriesSubset: ["% Grads Credential Match"],
         title: "Canada: Graduate Credential Match Rate (1990–2026) | %",
         subtitle: "Share of graduates working in a field matching their credential.",
@@ -527,7 +527,7 @@ const CHART_CONFIG = {
     label: "Resources",
     desc: "Energy and resource revenue, equalization flows, and commodity exposure.",
     charts: [
-      { key: "energy", id: "energy", type: "line", showRef: true,
+      { key: "energy", id: "energy", type: "line", relatedCharts: ["trade", "fed_debt_deficit", "energy-wti"], showRef: true,
         seriesSubset: ["Oil & Gas Revenue ($B)", "Fed Equalization Paid ($B)", "Alta Resource Revenue ($B)", "Crit. Mineral Export ($B)"],
         title: "Canada: Energy & Resource Revenue Flows (1990–2026) | $B",
         subtitle: "Nominal dollars (as reported each year) — not adjusted for inflation. See below for the real-dollar comparison of the three largest flows.",
@@ -540,7 +540,7 @@ const CHART_CONFIG = {
           "Crit. Mineral Export ($B)": "Exports of critical minerals (lithium, cobalt, nickel, rare earths) — materials essential to battery technology and the energy transition. Growing fast from a small base."
         }
       },
-      { key: "energy", id: "energy-real", type: "line",
+      { key: "energy", id: "energy-real", type: "line", relatedCharts: ["energy", "energy-wti"],
         seriesSubset: ["Oil & Gas Revenue — Real (2024 CAD $B)", "Fed Equalization Paid — Real (2024 CAD $B)", "Alta Resource Revenue — Real (2024 CAD $B)"],
         title: "Canada: Energy & Resource Revenue Flows, Real Terms (1990–2026) | 2024 CAD $B",
         subtitle: "The three largest flows above, restated in constant 2024 dollars.",
@@ -552,7 +552,7 @@ const CHART_CONFIG = {
           "Alta Resource Revenue — Real (2024 CAD $B)": "Alberta resource royalty revenue restated in constant 2024 dollars, removing the effect of inflation."
         }
       },
-      { key: "energy", id: "energy-wti", type: "line",
+      { key: "energy", id: "energy-wti", type: "line", relatedCharts: ["energy", "trade-fx"],
         seriesSubset: ["WTI Oil Price (USD/bbl)"],
         title: "Canada: WTI Oil Price (1990–2026) | USD/bbl",
         subtitle: "West Texas Intermediate crude price — the commodity cycle driving resource revenue volatility above.",
@@ -562,7 +562,7 @@ const CHART_CONFIG = {
           "WTI Oil Price (USD/bbl)": "The international benchmark price for crude oil, in US dollars per barrel. Canada's oil sands production trades at a discount to WTI, but WTI movements drive the same directional changes."
         }
       },
-      { key: "energy", id: "energy-lng", type: "line",
+      { key: "energy", id: "energy-lng", type: "line", relatedCharts: ["energy", "trade"],
         seriesSubset: ["LNG Exports (BCF/yr)"],
         title: "Canada: LNG Exports (1990–2026) | BCF/yr",
         subtitle: "Liquefied natural gas exports, billion cubic feet per year.",
