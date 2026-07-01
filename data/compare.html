@@ -16,13 +16,14 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="data-style.css?v=20">
+<link rel="stylesheet" href="data-style.css?v=21">
 </head>
 <body>
 <div class="wrap">
   <div class="breadcrumb"><a href="../index.html">Northwatch</a> / <a href="index.html">Data</a> / Compare</div>
   <h1>Compare Charts</h1>
-  <p class="page-sub">Pick any two indicators. Years are synced on a shared x-axis where ranges overlap.</p>
+  <p class="page-sub">Pick any two indicators.</p>
+  <p class="sync-status" id="sync-status"></p>
 
   <div class="compare-controls">
     <div class="compare-select-group">
@@ -35,37 +36,41 @@
     </div>
   </div>
 
-  <div class="chart-card">
-    <div class="chart-header no-toggle">
-      <div class="chart-header-text">
-        <h3 id="title-a"></h3>
-        <p class="sub" id="sub-a"></p>
+  <div class="compare-grid">
+    <div class="chart-card">
+      <div class="chart-header no-toggle">
+        <div class="chart-header-text">
+          <h3><span id="title-a"></span><span class="cited-badge" id="badge-a" style="display:none" title="This chart has a real, citable external threshold — see 'What does this mean?'">Cited Threshold</span></h3>
+          <p class="sub" id="sub-a"></p>
+        </div>
+        <div class="chart-header-actions">
+          <button class="share-btn" id="share-a" title="Copy link to this chart">Share</button>
+          <button class="csv-btn" id="csv-a" title="Download this chart's data as CSV">CSV</button>
+          <button class="info-btn" id="info-a">What does this mean?</button>
+        </div>
       </div>
-      <div class="chart-header-actions">
-        <button class="share-btn" id="share-a" title="Copy link to this chart">Share</button>
-        <button class="info-btn" id="info-a">What does this mean?</button>
+      <div class="chart-body" style="display:block;">
+        <div class="chart-box"><canvas id="chart-a"></canvas></div>
+        <div class="src" id="src-a"></div>
       </div>
     </div>
-    <div class="chart-body" style="display:block;">
-      <div class="chart-box"><canvas id="chart-a"></canvas></div>
-      <div class="src" id="src-a"></div>
-    </div>
-  </div>
 
-  <div class="chart-card" style="margin-top:24px;">
-    <div class="chart-header no-toggle">
-      <div class="chart-header-text">
-        <h3 id="title-b"></h3>
-        <p class="sub" id="sub-b"></p>
+    <div class="chart-card">
+      <div class="chart-header no-toggle">
+        <div class="chart-header-text">
+          <h3><span id="title-b"></span><span class="cited-badge" id="badge-b" style="display:none" title="This chart has a real, citable external threshold — see 'What does this mean?'">Cited Threshold</span></h3>
+          <p class="sub" id="sub-b"></p>
+        </div>
+        <div class="chart-header-actions">
+          <button class="share-btn" id="share-b" title="Copy link to this chart">Share</button>
+          <button class="csv-btn" id="csv-b" title="Download this chart's data as CSV">CSV</button>
+          <button class="info-btn" id="info-b">What does this mean?</button>
+        </div>
       </div>
-      <div class="chart-header-actions">
-        <button class="share-btn" id="share-b" title="Copy link to this chart">Share</button>
-        <button class="info-btn" id="info-b">What does this mean?</button>
+      <div class="chart-body" style="display:block;">
+        <div class="chart-box"><canvas id="chart-b"></canvas></div>
+        <div class="src" id="src-b"></div>
       </div>
-    </div>
-    <div class="chart-body" style="display:block;">
-      <div class="chart-box"><canvas id="chart-b"></canvas></div>
-      <div class="src" id="src-b"></div>
     </div>
   </div>
 
@@ -76,7 +81,7 @@
 <script src="data.js?v=8"></script>
 <script src="chart-config.js?v=10"></script>
 <script src="chart-render.js?v=16"></script>
-<script src="compare.js?v=4"></script>
+<script src="compare.js?v=5"></script>
 <script src="../nav.js?v=3"></script>
 </body>
 </html>

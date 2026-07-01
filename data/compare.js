@@ -61,23 +61,49 @@ function shareCompareChart(catKey, canvasId, btnEl){
 
 let chartA = null, chartB = null;
 
-function renderSlot(o, ids, chartRef){
+/* ── x-axis sync helpers ─────────────────────────────────── */
+function isTimeSeriesConfig(c, d){
+  return c.type !== "horizontalBar" && Array.isArray(d.x) && d.x.length > 0 && typeof d.x[0] === "number";
+}
+function unionSortedX(xA, xB){
+  return Array.from(new Set([...xA, ...xB])).sort((a,b)=>a-b);
+}
+function computeSharedLabels(oA, oB){
+  const dA = CANADA_DATA[oA.config.key], dB = CANADA_DATA[oB.config.key];
+  if(!isTimeSeriesConfig(oA.config, dA) || !isTimeSeriesConfig(oB.config, dB)) return null;
+  const minA = Math.min(...dA.x), maxA = Math.max(...dA.x);
+  const minB = Math.min(...dB.x), maxB = Math.max(...dB.x);
+  if(Math.max(minA, minB) > Math.min(maxA, maxB)) return null; // no overlap
+  return unionSortedX(dA.x, dB.x);
+}
+
+function renderSlot(o, ids, chartRef, sharedLabels){
   const c = o.config;
   const d = CANADA_DATA[c.key];
   const canvasId = c.id || c.key;
 
   document.getElementById(ids.title).textContent = c.title || d.title;
   document.getElementById(ids.sub).textContent = c.subtitle || d.subtitle || "";
-  document.getElementById(ids.src).textContent = d.source || "";
+  document.getElementById(ids.src).innerHTML = `${d.source||""}${d.lastUpdated?` <span class="last-updated">· Data verified current as of ${formatLastUpdated(d.lastUpdated)}</span>`:""}`;
 
   const built = buildDataset(c.key, c.type, c.seriesSubset);
   const opts = baseChartOptions();
   if(built.indexAxis) opts.indexAxis = built.indexAxis;
 
+  let labels = built.labels, datasets = built.datasets;
+  if(sharedLabels && built.chartType === "line"){
+    // remap each dataset's data from its native x-index onto the shared label set
+    labels = sharedLabels;
+    datasets = built.datasets.map(ds=>{
+      const valueByX = new Map(d.x.map((xv,i)=>[xv, ds.data[i]]));
+      return { ...ds, data: sharedLabels.map(xv => valueByX.has(xv) ? valueByX.get(xv) : null) };
+    });
+  }
+
   if(chartRef.chart) chartRef.chart.destroy();
   chartRef.chart = new Chart(document.getElementById(ids.canvas).getContext("2d"), {
     type: built.chartType,
-    data: { labels: built.labels, datasets: built.datasets },
+    data: { labels, datasets },
     options: opts
   });
 
@@ -85,9 +111,17 @@ function renderSlot(o, ids, chartRef){
   const shareBtn = document.getElementById(ids.share);
   shareBtn.onclick = ()=> shareCompareChart(o.catKey, canvasId, shareBtn);
 
-  // Info modal -> build the same data shape chart-render.js uses for category pages
+  // CSV export -> reuses chart-render.js's global downloadChartCSV via its export map
   const allNames = c.seriesSubset || Object.keys(d.series);
   const shownSeries = allNames.filter(s=>d.series[s] && isChartableSeries(d.series[s]));
+  _csvExportMap[canvasId] = { dataKey: c.key, seriesNames: shownSeries, xLabel: d.xLabel || "", title: c.title || d.title };
+  document.getElementById(ids.csv).onclick = ()=> downloadChartCSV(canvasId);
+
+  // Cited Threshold badge
+  const badgeEl = document.getElementById(ids.badge);
+  badgeEl.style.display = c.citedThreshold ? "" : "none";
+
+  // Info modal -> build the same data shape chart-render.js uses for category pages
   const legendItems = shownSeries.map((name,i)=>({
     name, color: PALETTE[i % PALETTE.length],
     explain: (c.legendExplain && c.legendExplain[name]) || ""
@@ -96,6 +130,7 @@ function renderSlot(o, ids, chartRef){
     title: c.title || d.title,
     explain: c.explain || "",
     verdict: c.verdict || "",
+    citedThreshold: c.citedThreshold || "",
     legendItems
   };
   document.getElementById(ids.info).onclick = ()=> openInfoModalData(modalData);
@@ -111,12 +146,24 @@ document.addEventListener("DOMContentLoaded", () => {
   populateSelect(selB, options, 1);
 
   const refA = {}, refB = {};
-  const idsA = { title:"title-a", sub:"sub-a", src:"src-a", canvas:"chart-a", share:"share-a", info:"info-a" };
-  const idsB = { title:"title-b", sub:"sub-b", src:"src-b", canvas:"chart-b", share:"share-b", info:"info-b" };
+  const idsA = { title:"title-a", sub:"sub-a", src:"src-a", canvas:"chart-a", share:"share-a", info:"info-a", csv:"csv-a", badge:"badge-a" };
+  const idsB = { title:"title-b", sub:"sub-b", src:"src-b", canvas:"chart-b", share:"share-b", info:"info-b", csv:"csv-b", badge:"badge-b" };
+  const syncStatusEl = document.getElementById("sync-status");
 
   function update(){
-    renderSlot(options[+selA.value], idsA, refA);
-    renderSlot(options[+selB.value], idsB, refB);
+    const oA = options[+selA.value], oB = options[+selB.value];
+    const sharedLabels = computeSharedLabels(oA, oB);
+
+    if(sharedLabels){
+      syncStatusEl.textContent = "X-axis synced — years are aligned across both charts.";
+      syncStatusEl.classList.add("synced");
+    } else {
+      syncStatusEl.textContent = "X-axis not synced — these charts don't share a common numeric year range (different range, or one uses category labels rather than years).";
+      syncStatusEl.classList.remove("synced");
+    }
+
+    renderSlot(oA, idsA, refA, sharedLabels);
+    renderSlot(oB, idsB, refB, sharedLabels);
   }
 
   selA.addEventListener("change", update);
