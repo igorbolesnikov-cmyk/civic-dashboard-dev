@@ -6,7 +6,7 @@
 <title>Provincial Map — Northwatch</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="data-style.css?v=6">
+<link rel="stylesheet" href="data-style.css?v=7">
 <style>
 .map-controls{display:flex;align-items:center;gap:14px;margin-bottom:28px;flex-wrap:wrap;}
 .map-controls label{font-size:13px;color:var(--text-dim);}
@@ -76,7 +76,7 @@
 
   <div class="map-wrap">
     <div class="map-loading" id="map-loading">Loading map…</div>
-    <svg id="canada-map" viewBox="0 0 960 600" style="display:none"></svg>
+    <svg id="canada-map" viewBox="0 0 960 410" style="display:none"></svg>
   </div>
 
   <div class="map-legend" id="map-legend" style="display:none">
@@ -183,7 +183,7 @@ function buildMap(mKey){
   // clipped — expected, since they're rendered noData/gray anyway.
   const projection=d3.geoMercator()
     .scale(611)
-    .translate([1501,977]);
+    .translate([1501,882]);
 
   const path=d3.geoPath().projection(projection);
 
