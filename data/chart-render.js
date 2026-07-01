@@ -97,6 +97,10 @@ function initModal(){
       <span class="verdict-tag" id="verdict-tag"></span>
       <p id="verdict-text"></p>
     </div>
+    <div class="info-modal-threshold" id="info-modal-threshold" style="display:none">
+      <span class="threshold-tag">Cited Threshold</span>
+      <p id="threshold-text"></p>
+    </div>
     <div class="info-modal-legend" id="info-modal-legend" style="display:none"></div>
   </div>`;
   el.addEventListener("click",function(e){if(e.target===el)closeInfoModal();});
@@ -136,6 +140,16 @@ function openInfoModalData(m){
     verdictBox.style.display="";
   } else {
     verdictBox.style.display="none";
+  }
+
+  // cited threshold block — external, sourced benchmark (distinct from internal verdict)
+  const thresholdBox=document.getElementById("info-modal-threshold");
+  const thresholdText=document.getElementById("threshold-text");
+  if(m.citedThreshold){
+    thresholdText.textContent=m.citedThreshold;
+    thresholdBox.style.display="";
+  } else {
+    thresholdBox.style.display="none";
   }
 
   const legendEl=document.getElementById("info-modal-legend");
@@ -274,7 +288,7 @@ function renderCategory(catKey){
       name,color:PALETTE[i%PALETTE.length],
       explain:legendExplain[name]||""}));
 
-    _modalCharts.push({title,explain,verdict,legendItems});
+    _modalCharts.push({title,explain,verdict,legendItems,citedThreshold:c.citedThreshold||""});
 
     const card=document.createElement("div");
     card.className="chart-card collapsed";
@@ -284,11 +298,12 @@ function renderCategory(catKey){
     const showRef=c.showRef===true||(!c.seriesSubset&&c.showRef!==false);
     const refHtml=(showRef&&d.refTable)?buildRefTable(d.refTable):"";
     const noteHtml=(showRef&&d.note)?`<div class="ref-note">${d.note}</div>`:"";
+    const thresholdBadgeHtml=c.citedThreshold?`<span class="cited-badge" title="This chart has a real, citable external threshold — see 'What does this mean?'">Cited Threshold</span>`:"";
 
     card.innerHTML=`
       <div class="chart-header" onclick="toggleCard(this.closest('.chart-card'))">
         <div class="chart-header-text">
-          <h3>${title}</h3>
+          <h3>${title}${thresholdBadgeHtml}</h3>
           <p class="sub">${subtitle||""}</p>
         </div>
         <div class="chart-header-actions">
