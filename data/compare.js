@@ -27,8 +27,7 @@ function renderOne(key, type, canvasId, titleId, subId, srcId, chartRefSetter){
   document.getElementById(subId).textContent = d.subtitle || "";
   document.getElementById(srcId).textContent = d.source || "";
 
-  const idx = 0;
-  const built = buildDataset(key, type, idx);
+  const built = buildDataset(key, type);
   const ctx = document.getElementById(canvasId).getContext("2d");
   const opts = baseChartOptions();
   if(built.indexAxis) opts.indexAxis = built.indexAxis;
@@ -61,7 +60,7 @@ document.addEventListener("DOMContentLoaded", () => {
     document.getElementById("title-a").textContent = CANADA_DATA[a.key].title;
     document.getElementById("sub-a").textContent = CANADA_DATA[a.key].subtitle || "";
     document.getElementById("src-a").textContent = CANADA_DATA[a.key].source || "";
-    let built = buildDataset(a.key, a.type, 0);
+    let built = buildDataset(a.key, a.type);
     let opts = baseChartOptions();
     if(built.indexAxis) opts.indexAxis = built.indexAxis;
     chartA = new Chart(document.getElementById("chart-a").getContext("2d"), {
@@ -71,7 +70,7 @@ document.addEventListener("DOMContentLoaded", () => {
     document.getElementById("title-b").textContent = CANADA_DATA[b.key].title;
     document.getElementById("sub-b").textContent = CANADA_DATA[b.key].subtitle || "";
     document.getElementById("src-b").textContent = CANADA_DATA[b.key].source || "";
-    built = buildDataset(b.key, b.type, 1);
+    built = buildDataset(b.key, b.type);
     opts = baseChartOptions();
     if(built.indexAxis) opts.indexAxis = built.indexAxis;
     chartB = new Chart(document.getElementById("chart-b").getContext("2d"), {

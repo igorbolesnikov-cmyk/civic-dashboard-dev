@@ -195,6 +195,7 @@ const CHART_CONFIG = {
         title: "Canada: Population Growth & Immigration Flows (1990–2026) | Thousands",
         subtitle: "Annual net population growth, permanent resident admissions, and non-permanent residents (NPR) — same unit (000s). The post-2022 NPR surge explains most of the per-capita GDP divergence shown elsewhere.",
         explain: "Three measures of how Canada's population is growing, all in the same unit (thousands of people per year). The most important line is Non-Permanent Residents — international students and temporary foreign workers. This number exploded after 2022, reaching levels that overwhelmed housing, healthcare, and transit infrastructure in major cities. This population surge is the direct mechanism behind Canada's falling GDP per capita: the economy grew, but the population grew faster.",
+        verdict: "BAD — The post-2022 surge in Non-Permanent Residents is the fastest population growth Canada has recorded, arriving faster than housing, healthcare, and transit capacity could absorb. This is the direct mechanism behind the falling GDP-per-capita shown elsewhere on this site.",
         legendExplain: {
           "Pop Growth (000s)": "Total net increase in Canada's population each year — births minus deaths, plus net migration. In thousands of people.",
           "Permanent Residents (000s)": "People granted permanent residency each year. On the path to citizenship.",
