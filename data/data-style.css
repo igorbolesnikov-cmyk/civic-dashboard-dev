@@ -8,12 +8,14 @@
   --accent-dim:#8c1e1b;
 }
 *{box-sizing:border-box;}
+button,a{touch-action:manipulation;}
 body{
   background:var(--bg);
   color:var(--text);
   font-family:'Inter',-apple-system,sans-serif;
   margin:0;
   line-height:1.5;
+  touch-action:manipulation;
 }
 .wrap{max-width:1100px;margin:0 auto;padding:48px 24px 96px;}
 a{color:var(--text);}
@@ -94,7 +96,7 @@ h1{font-size:clamp(28px,4vw,42px);font-weight:600;margin:0 0 8px;}
 
 @media (max-width:480px){
   .chart-header{flex-direction:column;align-items:flex-start;}
-  .chart-header-actions{margin-top:10px;}
+  .chart-header-actions{margin-top:10px;align-self:flex-end;}
 }
 
 /* collapsed state hides body */
@@ -150,7 +152,7 @@ h1{font-size:clamp(28px,4vw,42px);font-weight:600;margin:0 0 8px;}
 .info-modal-overlay.active{display:flex;}
 .info-modal{
   background:var(--bg-alt);border:1px solid var(--line);
-  border-radius:12px;max-width:520px;width:100%;
+  border-radius:12px;max-width:min(520px,calc(100vw - 40px));width:100%;
   max-height:82vh;overflow-y:auto;padding:26px 26px 22px;
   position:relative;
 }
