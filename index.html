@@ -276,7 +276,7 @@
     .subscribe-form{flex-direction:column;}
     .subscribe-form input[type="submit"]{width:100%;}
   }
-  .rwi-section { padding: 0 32px 64px; max-width: 760px; margin: 0 auto; min-height: 460px; }
+  .rwi-section { padding: 0 32px 64px; max-width: 760px; margin: 0 auto; }
   .rwi-wrap {
     background: #fff;
     border: 1px solid var(--border);
@@ -332,7 +332,6 @@
     .rwi-pillars { grid-template-columns: repeat(2, 1fr); }
     .rwi-number { font-size: 56px; }
     .rwi-score-row { flex-direction: column; align-items: flex-start; gap: 16px; }
-    .rwi-section { min-height: 620px; }
   }
 </style>
 </head>
@@ -350,6 +349,8 @@
 </section>
 
 <section class="rwi-section" id="rwi-section"></section>
+<script src="northwatch-index.js"></script>
+<script>renderRWI();</script>
 
 <section class="stats">
   <div class="stats-grid">
@@ -550,8 +551,6 @@ function renderFeed(){
 }
 renderFeed();
 </script>
-<script src="northwatch-index.js"></script>
-<script>renderRWI();</script>
 <script src="nav.js?v=4"></script>
 </body>
 </html>
