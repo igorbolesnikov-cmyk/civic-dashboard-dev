@@ -178,9 +178,9 @@ function buildMap(mKey){
   const min=Math.min(...vals), max=Math.max(...vals);
 
   const projection=d3.geoMercator()
-    .center([-96,62])
-    .scale(640)
-    .translate([480,330]);
+    .center([-96,58])
+    .scale(480)
+    .translate([480,280]);
 
   const path=d3.geoPath().projection(projection);
 
