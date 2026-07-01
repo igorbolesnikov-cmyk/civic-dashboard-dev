@@ -151,24 +151,20 @@ function getColor(val,min,max,better){
 }
 
 let geoData=null;
-let usData=null;
 let currentMetric="gdp";
 
-Promise.all([
-  fetch("https://raw.githubusercontent.com/codeforgermany/click_that_hood/main/public/data/canada.geojson").then(r=>r.json()),
-  fetch("https://raw.githubusercontent.com/PublicaMundi/MappingAPI/master/data/geojson/us-states.json").then(r=>r.json())
-])
-.then(([canada, us])=>{
-  geoData=canada;
-  usData=us;
-  document.getElementById("map-loading").style.display="none";
-  document.getElementById("canada-map").style.display="block";
-  document.getElementById("map-legend").style.display="flex";
-  buildMap("gdp");
-})
-.catch(()=>{
-  document.getElementById("map-loading").textContent="Failed to load map data. Please refresh.";
-});
+fetch("https://raw.githubusercontent.com/codeforgermany/click_that_hood/main/public/data/canada.geojson")
+  .then(r=>r.json())
+  .then(canada=>{
+    geoData=canada;
+    document.getElementById("map-loading").style.display="none";
+    document.getElementById("canada-map").style.display="block";
+    document.getElementById("map-legend").style.display="flex";
+    buildMap("gdp");
+  })
+  .catch(()=>{
+    document.getElementById("map-loading").textContent="Failed to load map data. Please refresh.";
+  });
 
 function buildMap(mKey){
   currentMetric=mKey;
@@ -193,20 +189,6 @@ function buildMap(mKey){
   filter.append("feComposite").attr("in","blended").attr("in2","SourceGraphic").attr("operator","in");
 
   const g=svg.append("g").attr("filter","url(#grain)");
-
-  // US states — background context only, no interaction
-  if(usData){
-    g.selectAll(".us-state")
-      .data(usData.features)
-      .enter()
-      .append("path")
-      .attr("class","us-state")
-      .attr("d",path)
-      .attr("fill","#ccc9c0")
-      .attr("stroke","#f7f5f1")
-      .attr("stroke-width","0.4")
-      .style("pointer-events","none");
-  }
 
   g.selectAll("path")
     .data(geoData.features)
