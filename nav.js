@@ -38,6 +38,7 @@
       border-bottom:1px solid #e2dfd8;
       position:sticky;top:0;z-index:500;
     }
+    #site-nav-root{ height:auto !important; }
     .site-nav-inner{
       max-width:1100px;margin:0 auto;padding:0 24px;
       display:flex;align-items:center;justify-content:space-between;
@@ -71,5 +72,10 @@
   `;
 
   document.head.appendChild(style);
-  document.body.insertAdjacentHTML('afterbegin', navHTML);
+  const root = document.getElementById('site-nav-root');
+  if (root) {
+    root.outerHTML = navHTML;
+  } else {
+    document.body.insertAdjacentHTML('afterbegin', navHTML);
+  }
 })();
