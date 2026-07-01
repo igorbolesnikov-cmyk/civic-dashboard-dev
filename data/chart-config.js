@@ -71,13 +71,14 @@ const CHART_CONFIG = {
         }
       },
       { key: "trade", id: "trade-balance", type: "line",
-        seriesSubset: ["Current Account Balance ($B)"],
-        title: "Canada: Current Account Balance (2000–2026) | $B",
-        subtitle: "Persistent deficit means Canada finances current consumption by borrowing from or selling assets to foreigners.",
-        explain: "A current account deficit means a country spends more than it earns internationally — and finances the gap by borrowing from foreigners or selling off domestic assets. Canada has run a persistent deficit for most of this period. This is not automatically catastrophic, but it means part of Canada's consumption is funded by foreign capital, not its own production.",
+        seriesSubset: ["Current Account Balance ($B)", "Current Account Balance — Real (2024 CAD $B)"],
+        title: "Canada: Current Account Balance, Nominal vs. Real (2000–2026) | $B",
+        subtitle: "Nominal balance (as reported) vs. inflation-adjusted 2024 dollars. Persistent deficit means Canada finances current consumption by borrowing from or selling assets to foreigners.",
+        explain: "A current account deficit means a country spends more than it earns internationally — and finances the gap by borrowing from foreigners or selling off domestic assets. Canada has run a persistent deficit for most of this period, in both nominal and inflation-adjusted terms. This is not automatically catastrophic, but it means part of Canada's consumption is funded by foreign capital, not its own production.",
         verdict: "BAD — A persistent current account deficit means Canada spends more than it earns internationally, financing the gap through foreign borrowing or selling domestic assets.",
         legendExplain: {
-          "Current Account Balance ($B)": "The difference between what Canada earns from abroad and what it pays abroad. Negative (below zero) means Canada is spending more than it earns internationally, financing the difference through foreign borrowing or asset sales. In billions of dollars."
+          "Current Account Balance ($B)": "The difference between what Canada earns from abroad and what it pays abroad, in the dollars of each year (nominal). Negative means Canada is spending more than it earns internationally.",
+          "Current Account Balance — Real (2024 CAD $B)": "The same balance restated in constant 2024 dollars, removing the effect of inflation."
         }
       },
       { key: "trade", id: "trade-fx", type: "line",
@@ -127,13 +128,14 @@ const CHART_CONFIG = {
         }
       },
       { key: "fed_debt_deficit", id: "fed_debt_deficit-balance", type: "line",
-        seriesSubset: ["Annual Surplus/ Deficit ($B)"],
-        title: "Canada: Annual Federal Surplus / Deficit (1970–2026) | $B",
-        subtitle: "Annual budgetary balance, nominal dollars. The 2020 deficit of -$327.7B is the largest in Canadian history.",
-        explain: "Each point shows whether the federal government took in more than it spent (surplus, positive) or spent more than it collected (deficit, negative) in that year. Running deficits in good economic times — as Canada has done since 2015 — means there is no room to manoeuvre when an actual crisis hits. The 2020 COVID deficit of -$327.7 billion is the largest in Canadian history by a wide margin.",
-        verdict: "BAD — Running deficits in good economic times leaves no room when a real crisis hits. Canada's 2020 COVID deficit was the largest in its history by an enormous margin.",
+        seriesSubset: ["Annual Surplus/ Deficit ($B)", "Annual Surplus/ Deficit — Real (2024 CAD $B)"],
+        title: "Canada: Annual Federal Surplus / Deficit, Nominal vs. Real (1970–2026) | $B",
+        subtitle: "Nominal dollars (as originally reported) vs. inflation-adjusted 2024 dollars. Over a 56-year span, nominal comparisons alone are misleading — this shows both.",
+        explain: "Each point shows whether the federal government took in more than it spent (surplus, positive) or spent more than it collected (deficit, negative) in that year. The nominal line is the figure as originally reported each year. The real line restates every year in constant 2024 dollars, removing the effect of inflation, so 1975 and 2025 are directly comparable. In real terms the 2020 COVID deficit (-$384.8B in 2024 dollars) is still the largest on record by a wide margin, and the 1982-83 and 1984-85 deficits are larger in real terms than their nominal figures suggest.",
+        verdict: "BAD — Running deficits in good economic times leaves no room when a real crisis hits. Canada's 2020 COVID deficit was the largest in its history by an enormous margin, even after adjusting for inflation.",
         legendExplain: {
-          "Annual Surplus/ Deficit ($B)": "Positive numbers mean the government collected more than it spent that year. Negative numbers mean it borrowed the difference. In billions of dollars."
+          "Annual Surplus/ Deficit ($B)": "Positive numbers mean the government collected more than it spent that year. Negative numbers mean it borrowed the difference. In the dollars of the year in question (nominal) — not adjusted for inflation.",
+          "Annual Surplus/ Deficit — Real (2024 CAD $B)": "The same figure restated in constant 2024 dollars using the Statistics Canada CPI, removing the effect of inflation so different decades can be compared directly."
         }
       },
       { key: "housing", id: "housing", type: "line",
@@ -147,14 +149,16 @@ const CHART_CONFIG = {
         }
       },
       { key: "housing", id: "housing-dollars", type: "line",
-        seriesSubset: ["Median Household Income ($000s)", "Avg Home Price ($000s)"],
-        title: "Canada: Median Income vs. Average Home Price (1990–2026) | $000s",
-        subtitle: "Same unit ($000s), directly comparable — the growing gap between the two lines is the affordability crisis.",
-        explain: "The clearest way to see the affordability crisis: median household income versus average home price, in the same dollar units on the same chart. In the early 1990s the lines were close. They have been diverging ever since. A family's annual income has roughly doubled since 1990; the average home price has multiplied by five to ten times depending on the city.",
-        verdict: "BAD — Home prices have risen 5–10 times faster than incomes since 1990. The widening gap is the affordability crisis expressed in plain numbers.",
+        seriesSubset: ["Median Household Income ($000s)", "Avg Home Price ($000s)", "Median Household Income — Real (2024 CAD $000s)", "Avg Home Price — Real (2024 CAD $000s)"],
+        title: "Canada: Median Income vs. Average Home Price, Nominal & Real (1990–2026) | $000s",
+        subtitle: "Solid nominal dollars (as reported) and inflation-adjusted 2024 dollars, same units — the gap between income and price lines persists in both.",
+        explain: "The clearest way to see the affordability crisis: median household income versus average home price, in the same dollar units on the same chart, shown both as originally reported (nominal) and restated in constant 2024 dollars (real) to remove the effect of inflation. In nominal terms the lines have diverged dramatically since the early 1990s. In real terms the gap is smaller but still substantial — home prices have outpaced income growth even after accounting for 34 years of inflation.",
+        verdict: "BAD — Home prices have risen faster than incomes since 1990 in both nominal and inflation-adjusted terms. The gap is smaller once inflation is removed, but it has not closed.",
         legendExplain: {
-          "Median Household Income ($000s)": "The income of the household exactly in the middle of all Canadian households — half earn more, half earn less. In thousands of dollars.",
-          "Avg Home Price ($000s)": "The national average sale price of a Canadian home. In thousands of dollars. Compare directly to the income line above to see the affordability gap."
+          "Median Household Income ($000s)": "The income of the household exactly in the middle of all Canadian households, in the dollars of that year (nominal) — not adjusted for inflation.",
+          "Avg Home Price ($000s)": "The national average sale price of a Canadian home, in the dollars of that year (nominal) — not adjusted for inflation.",
+          "Median Household Income — Real (2024 CAD $000s)": "Median household income restated in constant 2024 dollars, removing the effect of inflation.",
+          "Avg Home Price — Real (2024 CAD $000s)": "Average home price restated in constant 2024 dollars, removing the effect of inflation."
         }
       },
       { key: "housing", id: "housing-ratio", type: "line",
@@ -184,36 +188,50 @@ const CHART_CONFIG = {
         }
       },
       { key: "dept_spending_hist", type: "line",
-        explain: "How the five largest departments with consistent historical records have grown since 2000. Key context: Health Canada's line looks small because the real federal healthcare money ($54B+ Canada Health Transfer) flows directly to provinces through the Department of Finance, not through Health Canada. The ESDC spike in 2020 is COVID emergency transfers (CERB, wage subsidies) — a one-time event, not a permanent level.",
-        verdict: "BAD — Canada’s post-2022 population surge is the fastest in recorded history, overwhelming housing, healthcare, and transit infrastructure. The speed of increase, not immigration itself, is the structural problem.",
-        verdict: "MIXED — Rising defence spending toward NATO commitments is arguably necessary. The ESDC spike was one-time COVID emergency spending. Health Canada's small figure is misleading — the real federal healthcare money flows through Finance.",
+        seriesSubset: ["National Defence ($B)", "Health Canada ($B)", "Employment & Social Dev ($B)", "Indigenous Services* ($B)", "Global Affairs ($B)"],
+        subtitle: "Nominal dollars (as reported each year) — not adjusted for inflation. See the Total spending chart below for a real-dollar comparison.",
+        explain: "How the five largest departments with consistent historical records have grown since 2000, in nominal dollars. Key context: Health Canada's line looks small because the real federal healthcare money ($54B+ Canada Health Transfer) flows directly to provinces through the Department of Finance, not through Health Canada. The ESDC spike in 2020 is COVID emergency transfers (CERB, wage subsidies) — a one-time event, not a permanent level. These figures are not adjusted for inflation; a meaningful share of the nominal growth since 2000 reflects rising prices rather than expanded programs.",
+        verdict: "MIXED — Rising defence spending toward NATO commitments is arguably necessary. The ESDC spike was one-time COVID emergency spending. Health Canada's small figure is misleading — the real federal healthcare money flows through Finance. Figures are nominal; some of the apparent growth is inflation, not expanded spending.",
         legendExplain: {
-          "National Defence ($B)": "DND spending. Rising sharply as Canada moves toward the NATO 2% of GDP target.",
+          "National Defence ($B)": "DND spending, in the dollars of each year (nominal). Rising sharply as Canada moves toward the NATO 2% of GDP target.",
           "Health Canada ($B)": "Looks small because the $54B+ Canada Health Transfer goes to provinces through Finance, not this department.",
           "ESDC ($B)": "Employment and Social Development Canada. The 2020 spike is COVID emergency spending — CERB and wage subsidies.",
           "Indigenous Services ($B)": "Jumps in 2017 because INAC was split into two departments — not a real spending increase.",
           "Global Affairs ($B)": "Foreign affairs, international trade, and development assistance."
         }
+      },
+      { key: "dept_spending_hist", id: "dept_spending_hist-total-real", type: "line",
+        seriesSubset: ["TOTAL 5 Depts ($B)", "TOTAL 5 Depts — Real (2024 CAD $B)"],
+        title: "Canada: Combined Spending, 5 Largest Departments — Nominal vs. Real (2000–2027) | $B",
+        subtitle: "Nominal total (as reported) vs. inflation-adjusted 2024 dollars.",
+        explain: "The combined budget of the five departments above, shown both as originally reported (nominal) and restated in constant 2024 dollars (real). Nominal totals have roughly quadrupled since 2000, but a meaningful share of that increase reflects 26 years of accumulated inflation rather than genuinely larger programs. The real-dollar line isolates the portion of growth that represents an actual expansion of government activity.",
+        verdict: "MIXED — Combined spending has grown substantially even after removing inflation, driven mainly by the post-2022 defence and Indigenous Services increases. But nominal figures alone overstate the scale of that growth.",
+        legendExplain: {
+          "TOTAL 5 Depts ($B)": "Combined spending across the five departments, in the dollars of each year (nominal) — not adjusted for inflation.",
+          "TOTAL 5 Depts — Real (2024 CAD $B)": "The same combined total restated in constant 2024 dollars, removing the effect of inflation."
+        }
       }
 ,
       { key: "govt_efficiency", id: "govt_efficiency-health$", type: "line", showRef: true,
-        seriesSubset: ["Health Spend per Capita ($)"],
-        title: "Canada: Health Spending per Capita (2000–2026) | $",
-        subtitle: "Nominal healthcare spend per capita.",
-        explain: "How much Canada spends per person on healthcare each year. Spending has nearly tripled since 2000. Compare this chart to the life expectancy and health value score charts below: dramatically more spending has produced only marginal improvement in outcomes. Canada now spends more per capita than Germany, France, and Japan — and ranks 6th of 7 in the G7 on health outcomes.",
-        verdict: "BAD — Healthcare spending has nearly tripled while outcomes have barely improved. Canada now spends more per capita than Germany and France and gets worse results. More money is not producing better health.",
+        seriesSubset: ["Health Spend per Capita ($)", "Health Spend per Capita — Real (2024 CAD $)"],
+        title: "Canada: Health Spending per Capita, Nominal vs. Real (2000–2026) | $",
+        subtitle: "Nominal spend (as reported) vs. inflation-adjusted 2024 dollars.",
+        explain: "How much Canada spends per person on healthcare each year. In nominal terms spending has nearly tripled since 2000; in constant 2024 dollars the real increase is smaller but still substantial. Compare this chart to the life expectancy and health value score charts below: even after removing inflation, spending has grown far faster than outcomes have improved. Canada now spends more per capita than Germany, France, and Japan — and ranks 6th of 7 in the G7 on health outcomes.",
+        verdict: "BAD — Healthcare spending has grown substantially even in real, inflation-adjusted terms, while outcomes have barely improved. Canada now spends more per capita than Germany and France and gets worse results.",
         legendExplain: {
-          "Health Spend per Capita ($)": "Total health spending (public + private) divided by population. The per-person annual cost of the healthcare system."
+          "Health Spend per Capita ($)": "Total health spending (public + private) divided by population, in the dollars of each year (nominal) — not adjusted for inflation.",
+          "Health Spend per Capita — Real (2024 CAD $)": "The same per-capita spend restated in constant 2024 dollars, removing the effect of inflation."
         }
       },
       { key: "govt_efficiency", id: "govt_efficiency-infra$", type: "line",
-        seriesSubset: ["Infra Spend ($B)"],
-        title: "Canada: Infrastructure Spending (2000–2026) | $B",
-        subtitle: "Nominal aggregate infrastructure spend.",
-        explain: "Total public infrastructure spending per year — rising steadily. But compare this to the infrastructure quality index chart below: quality has fallen every year despite rising spend. More money is producing worse infrastructure. This gap between inputs (spending) and outputs (quality) is the signature of a government efficiency problem.",
-        verdict: "BAD — Infrastructure spending is rising while infrastructure quality is falling. More money is being spent to produce worse results — the signature of a government efficiency problem.",
+        seriesSubset: ["Infra Spend ($B)", "Infra Spend — Real (2024 CAD $B)"],
+        title: "Canada: Infrastructure Spending, Nominal vs. Real (2000–2026) | $B",
+        subtitle: "Nominal spend (as reported) vs. inflation-adjusted 2024 dollars.",
+        explain: "Total public infrastructure spending per year, shown both as originally reported (nominal) and restated in constant 2024 dollars (real) — rising steadily in both. But compare this to the infrastructure quality index chart below: quality has fallen every year despite rising real spend. More money — even after removing inflation — is producing worse infrastructure. This gap between inputs (spending) and outputs (quality) is the signature of a government efficiency problem.",
+        verdict: "BAD — Infrastructure spending is rising in real terms while infrastructure quality is falling. More money, not just more inflation, is being spent to produce worse results — the signature of a government efficiency problem.",
         legendExplain: {
-          "Infra Spend ($B)": "Combined federal and provincial public infrastructure investment per year. In billions of dollars."
+          "Infra Spend ($B)": "Combined federal and provincial public infrastructure investment per year, in the dollars of each year (nominal) — not adjusted for inflation.",
+          "Infra Spend — Real (2024 CAD $B)": "The same infrastructure investment restated in constant 2024 dollars, removing the effect of inflation."
         }
       },
       { key: "govt_efficiency", id: "govt_efficiency-value", type: "line",
@@ -394,12 +412,23 @@ const CHART_CONFIG = {
       { key: "corporate_concentration", id: "corporate_concentration", type: "line", showRef: true,
         seriesSubset: ["Dividends & Buybacks ($B)", "Productive CapEx ($B)"],
         title: "Canada: Dividends & Buybacks vs. Productive Investment (1990–2026) | $B",
-        subtitle: "Capital returned to shareholders vs. capital reinvested in productive capacity — same unit, directly comparable.",
-        explain: "Two competing uses of corporate profits: return money to shareholders (dividends and share buybacks) or reinvest in productive capacity (equipment, R&D, factories). When dividends and buybacks exceed productive investment, corporations are choosing to enrich current shareholders rather than build capacity that would create jobs and raise productivity. This trend is a direct cause of Canada's productivity stagnation — capital that should be building productive assets is instead flowing to shareholders.",
+        subtitle: "Nominal dollars, same unit — directly comparable to each other within a given year. See below for the inflation-adjusted trend over time.",
+        explain: "Two competing uses of corporate profits: return money to shareholders (dividends and share buybacks) or reinvest in productive capacity (equipment, R&D, factories). When dividends and buybacks exceed productive investment, corporations are choosing to enrich current shareholders rather than build capacity that would create jobs and raise productivity. Because both lines are in the same year's dollars, the year-by-year comparison between them is valid without adjusting for inflation — but the multi-decade growth of each line individually is overstated in nominal terms.",
         verdict: "BAD — When dividends and buybacks exceed productive investment, corporations are enriching current shareholders instead of building the productive capacity that creates future jobs and productivity growth.",
         legendExplain: {
-          "Dividends & Buybacks ($B)": "Money paid to shareholders through dividends (cash payments) and buybacks (company repurchases its own stock to drive up the share price). In billions.",
-          "Productive CapEx ($B)": "Capital expenditure on productive physical assets: machinery, equipment, research and development, factories. Investment that builds future productive capacity. In billions."
+          "Dividends & Buybacks ($B)": "Money paid to shareholders through dividends (cash payments) and buybacks (company repurchases its own stock to drive up the share price), in the dollars of each year (nominal).",
+          "Productive CapEx ($B)": "Capital expenditure on productive physical assets: machinery, equipment, research and development, factories, in the dollars of each year (nominal)."
+        }
+      },
+      { key: "corporate_concentration", id: "corporate_concentration-real", type: "line",
+        seriesSubset: ["Dividends & Buybacks — Real (2024 CAD $B)", "Productive CapEx — Real (2024 CAD $B)"],
+        title: "Canada: Dividends & Buybacks vs. Productive Investment, Real Terms (1990–2026) | 2024 CAD $B",
+        subtitle: "Both series restated in constant 2024 dollars, removing the effect of inflation.",
+        explain: "The same shareholder-payout vs. productive-investment comparison as above, restated in constant 2024 dollars. This isolates genuine growth in each category from the effect of 34 years of accumulated inflation. Productive investment has grown only modestly in real terms since 1990, while shareholder payouts have grown considerably faster — the gap that matters for productivity is real, not a nominal-dollar illusion.",
+        verdict: "BAD — Even after removing inflation, shareholder payouts have grown faster than productive investment. The capital misallocation shown above is not an artifact of rising prices.",
+        legendExplain: {
+          "Dividends & Buybacks — Real (2024 CAD $B)": "Dividends and buybacks restated in constant 2024 dollars, removing the effect of inflation.",
+          "Productive CapEx — Real (2024 CAD $B)": "Productive capital expenditure restated in constant 2024 dollars, removing the effect of inflation."
         }
       }
     ]
@@ -434,23 +463,25 @@ const CHART_CONFIG = {
         }
       },
       { key: "education", id: "education-tuition", type: "line",
-        seriesSubset: ["Avg Annual Tuition ($)"],
-        title: "Canada: Average Annual Tuition (1990–2026) | $",
-        subtitle: "Nominal average undergraduate tuition.",
-        explain: "The average cost of one year of undergraduate university tuition in Canada. Tuition has risen roughly five times faster than inflation since 1990. This forces students into large debt loads before they earn a single dollar — and shapes career decisions away from fields that pay less but provide social value (teaching, social work, skilled trades).",
-        verdict: "BAD — Tuition rising five times faster than inflation forces students into large debt loads before earning their first dollar and shapes career decisions away from socially valuable but lower-paying fields.",
+        seriesSubset: ["Avg Annual Tuition ($)", "Avg Annual Tuition — Real (2024 CAD $)"],
+        title: "Canada: Average Annual Tuition, Nominal vs. Real (1990–2026) | $",
+        subtitle: "Nominal tuition (as charged that year) vs. inflation-adjusted 2024 dollars.",
+        explain: "The average cost of one year of undergraduate university tuition in Canada. In nominal dollars tuition has risen roughly 5.2× since 1990. Once inflation is removed, tuition has risen about 2.5× in real terms — still well ahead of the roughly 2.1× rise in the general price level over the same period, meaning tuition has genuinely outpaced inflation, but by a more modest margin than the nominal figures alone suggest.",
+        verdict: "BAD — Tuition has outpaced inflation by a real margin since 1990, forcing students into larger debt loads before earning their first dollar. The gap is smaller than nominal figures imply, but it is real and persistent.",
         legendExplain: {
-          "Avg Annual Tuition ($)": "Average undergraduate tuition charged by Canadian universities for one academic year. In nominal (not inflation-adjusted) dollars. Does not include housing, food, books, or student fees."
+          "Avg Annual Tuition ($)": "Average undergraduate tuition charged by Canadian universities for one academic year, in the dollars of that year (nominal) — not adjusted for inflation. Does not include housing, food, books, or student fees.",
+          "Avg Annual Tuition — Real (2024 CAD $)": "The same tuition figure restated in constant 2024 dollars, removing the effect of inflation."
         }
       },
       { key: "education", id: "education-debt", type: "line",
-        seriesSubset: ["Avg Student Debt at Grad ($)"],
-        title: "Canada: Average Student Debt at Graduation (1990–2026) | $",
-        subtitle: "Nominal average debt held at graduation.",
-        explain: "The average debt students carry at graduation — crossing $56,000 by 2026 before earning a single paycheque. This debt delays home ownership, delays starting a family, and constrains career choices for a decade or more after graduation. It is a direct downstream consequence of the tuition inflation shown in the chart above.",
-        verdict: "BAD — $56,000 in debt at graduation delays home ownership, delays family formation, and constrains life choices for over a decade. It is a structural tax on the next generation.",
+        seriesSubset: ["Avg Student Debt at Grad ($)", "Avg Student Debt at Grad — Real (2024 CAD $)"],
+        title: "Canada: Average Student Debt at Graduation, Nominal vs. Real (1990–2026) | $",
+        subtitle: "Nominal debt (as reported) vs. inflation-adjusted 2024 dollars.",
+        explain: "The average debt students carry at graduation — crossing $56,000 in nominal terms by 2026, or roughly $54,600 in constant 2024 dollars. In real terms, average graduation debt has risen about 2.4× since 1990 — still a genuine increase after removing inflation, and still a direct downstream consequence of the tuition growth shown above, but a smaller multiple than the nominal figure alone suggests.",
+        verdict: "BAD — Even after adjusting for inflation, student debt at graduation has more than doubled since 1990. That delays home ownership, delays family formation, and constrains career choices for a decade or more.",
         legendExplain: {
-          "Avg Student Debt at Grad ($)": "Average amount owed by a Canadian post-secondary graduate at the time of graduation, before making any repayments. In nominal dollars."
+          "Avg Student Debt at Grad ($)": "Average amount owed by a Canadian post-secondary graduate at the time of graduation, in the dollars of that year (nominal) — not adjusted for inflation.",
+          "Avg Student Debt at Grad — Real (2024 CAD $)": "The same debt figure restated in constant 2024 dollars, removing the effect of inflation."
         }
       },
       { key: "education", id: "education-enrollment", type: "line",
@@ -494,14 +525,26 @@ const CHART_CONFIG = {
       { key: "energy", id: "energy", type: "line", showRef: true,
         seriesSubset: ["Oil & Gas Revenue ($B)", "Fed Equalization Paid ($B)", "Alta Resource Revenue ($B)", "Crit. Mineral Export ($B)"],
         title: "Canada: Energy & Resource Revenue Flows (1990–2026) | $B",
-        subtitle: "Same unit ($B), directly comparable — oil & gas revenue, federal equalization, Alberta resource revenue, and critical mineral exports.",
-        explain: "Canada's resource economy in four lines. Oil and gas revenue is real but highly volatile — it follows global commodity price cycles, not government policy. Federal equalization payments redistribute this wealth from resource-rich provinces (mainly Alberta) to lower-revenue provinces. Alberta's resource revenue alone funds a large share of the national transfer system — while Alberta itself receives nothing back in equalization payments.",
+        subtitle: "Nominal dollars (as reported each year) — not adjusted for inflation. See below for the real-dollar comparison of the three largest flows.",
+        explain: "Canada's resource economy in four lines, in nominal dollars. Oil and gas revenue is real but highly volatile — it follows global commodity price cycles, not government policy. Federal equalization payments redistribute this wealth from resource-rich provinces (mainly Alberta) to lower-revenue provinces. Alberta's resource revenue alone funds a large share of the national transfer system — while Alberta itself receives nothing back in equalization payments. These figures are not adjusted for inflation.",
         verdict: "MIXED — Oil and gas revenue is real wealth but highly volatile. It funds equalization for poorer provinces, but this dependency makes national fiscal health hostage to factors Canada cannot control.",
         legendExplain: {
-          "Oil & Gas Revenue ($B)": "Total government revenue from oil and natural gas — taxes, royalties, and levies. Highly volatile, follows global oil price cycles.",
-          "Fed Equalization Paid ($B)": "Federal equalization transfers to have-not provinces. Funded by all taxpayers including Alberta, which receives none of it.",
-          "Alta Resource Revenue ($B)": "Alberta provincial government revenue from resource royalties specifically. The engine of Alberta's fiscal surplus and the source funding national equalization.",
+          "Oil & Gas Revenue ($B)": "Total government revenue from oil and natural gas — taxes, royalties, and levies, in the dollars of each year (nominal). Highly volatile, follows global oil price cycles.",
+          "Fed Equalization Paid ($B)": "Federal equalization transfers to have-not provinces, in nominal dollars. Funded by all taxpayers including Alberta, which receives none of it.",
+          "Alta Resource Revenue ($B)": "Alberta provincial government revenue from resource royalties specifically, in nominal dollars. The engine of Alberta's fiscal surplus and the source funding national equalization.",
           "Crit. Mineral Export ($B)": "Exports of critical minerals (lithium, cobalt, nickel, rare earths) — materials essential to battery technology and the energy transition. Growing fast from a small base."
+        }
+      },
+      { key: "energy", id: "energy-real", type: "line",
+        seriesSubset: ["Oil & Gas Revenue — Real (2024 CAD $B)", "Fed Equalization Paid — Real (2024 CAD $B)", "Alta Resource Revenue — Real (2024 CAD $B)"],
+        title: "Canada: Energy & Resource Revenue Flows, Real Terms (1990–2026) | 2024 CAD $B",
+        subtitle: "The three largest flows above, restated in constant 2024 dollars.",
+        explain: "The same oil & gas revenue, federal equalization, and Alberta resource revenue lines, restated in constant 2024 dollars to remove the effect of inflation. The volatility — the defining feature of resource revenue — persists in real terms; the 2008-09 and 2014-15 price crashes and the 2022 commodity spike are still clearly visible once inflation is removed.",
+        verdict: "MIXED — Volatility is the structural feature here, and it remains just as pronounced after adjusting for inflation. Real terms confirm this is a genuine boom-bust pattern, not a nominal-dollar artifact.",
+        legendExplain: {
+          "Oil & Gas Revenue — Real (2024 CAD $B)": "Oil and gas revenue restated in constant 2024 dollars, removing the effect of inflation.",
+          "Fed Equalization Paid — Real (2024 CAD $B)": "Federal equalization payments restated in constant 2024 dollars, removing the effect of inflation.",
+          "Alta Resource Revenue — Real (2024 CAD $B)": "Alberta resource royalty revenue restated in constant 2024 dollars, removing the effect of inflation."
         }
       },
       { key: "energy", id: "energy-wti", type: "line",
