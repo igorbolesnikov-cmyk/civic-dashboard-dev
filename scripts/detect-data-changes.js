@@ -168,7 +168,7 @@ function main() {
       note = "REVIEW: source revision, not a new period. Confirm before publishing.";
     }
 
-    return { kind: c.kind, key: c.key, direction, tag: "data", title, note };
+    return { kind: c.kind, key: c.key, direction, date: new Date().toISOString().slice(0,10), tag: "data", title, note };
   });
 
   const dateStr = new Date().toISOString().slice(0, 10);

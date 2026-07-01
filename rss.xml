@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<rss version="2.0">
+  <channel>
+    <title>Northwatch — What Changed</title>
+    <link>https://northwatchca.github.io/civic-dashboard-dev/</link>
+    <description>Monthly structural data updates from Northwatch: a Canadian civic data resource.</description>
+    <language>en-ca</language>
+    <lastBuildDate>Wed, 01 Jul 2026 15:01:38 GMT</lastBuildDate>
+    <item>
+      <title>Site launched — Northwatch is live</title>
+      <description>Policy timeline, Northwatch Index, six chart categories, and 44 datasets now publicly accessible.</description>
+      <link>https://northwatchca.github.io/civic-dashboard-dev/#feed</link>
+      <guid isPermaLink="false">https://northwatchca.github.io/civic-dashboard-dev/#feed-dcf78ef6a0989066</guid>
+      <pubDate>Wed, 01 Jul 2026 12:00:00 GMT</pubDate>
+    </item>
+    <item>
+      <title>Northwatch Index introduced — Canada scores 31/100</title>
+      <description>Composite score across five structural pillars: Economic Health, Fiscal Sustainability, Demographic Vitality, Social Cohesion, and Labour &amp; Equality. Rated Severe.</description>
+      <link>https://northwatchca.github.io/civic-dashboard-dev/#feed</link>
+      <guid isPermaLink="false">https://northwatchca.github.io/civic-dashboard-dev/#feed-1f39a3c4d5f568eb</guid>
+      <pubDate>Wed, 01 Jul 2026 12:00:00 GMT</pubDate>
+    </item>
+    <item>
+      <title>Fertility rate holds at 1.35 — 36th consecutive year below replacement</title>
+      <description>Canada has not reached replacement-level fertility (2.1) since 1971. The second-generation immigrant convergence data confirms immigration does not structurally resolve this.</description>
+      <link>https://northwatchca.github.io/civic-dashboard-dev/#feed</link>
+      <guid isPermaLink="false">https://northwatchca.github.io/civic-dashboard-dev/#feed-840bc6251c116993</guid>
+      <pubDate>Wed, 01 Jul 2026 12:00:00 GMT</pubDate>
+    </item>
+    <item>
+      <title>Labour force participation falls to 64.1%</title>
+      <description>Down from a peak of 67.6% in 2008. Headline unemployment remains stable — but hundreds of thousands of working-age Canadians have exited the workforce entirely and are not counted.</description>
+      <link>https://northwatchca.github.io/civic-dashboard-dev/#feed</link>
+      <guid isPermaLink="false">https://northwatchca.github.io/civic-dashboard-dev/#feed-3ee95687a388f06c</guid>
+      <pubDate>Wed, 01 Jul 2026 12:00:00 GMT</pubDate>
+    </item>
+    <item>
+      <title>Bank of Canada holds overnight rate at 2.75%</title>
+      <description>The BoC paused its rate-cut cycle amid US tariff uncertainty. Household debt at 179% of income remains acutely sensitive to any upward rate movement.</description>
+      <link>https://northwatchca.github.io/civic-dashboard-dev/#feed</link>
+      <guid isPermaLink="false">https://northwatchca.github.io/civic-dashboard-dev/#feed-c68131512d28083e</guid>
+      <pubDate>Wed, 01 Jul 2026 12:00:00 GMT</pubDate>
+    </item>
+  </channel>
+</rss>
