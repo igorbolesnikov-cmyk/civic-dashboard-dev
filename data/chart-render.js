@@ -358,7 +358,7 @@ function downloadChartImage(canvasId){
   ctx.fillRect(0,0,out.width,out.height);
 
   // accent bar
-  ctx.fillStyle="#c82d29";
+  ctx.fillStyle="#c11f1f";
   ctx.fillRect(0,0,out.width,5);
 
   // title

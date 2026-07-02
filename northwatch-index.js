@@ -88,7 +88,7 @@ const RWI = (function(){
 })();
 
 function getRWIColor(score){
-  if(score <= 33) return "#c82d29";
+  if(score <= 33) return "#c11f1f";
   if(score <= 55) return "#a36a2d";
   return "#548249";
 }
