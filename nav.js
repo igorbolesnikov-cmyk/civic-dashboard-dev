@@ -24,7 +24,9 @@
   const navHTML = `
     <nav class="site-nav" id="site-nav">
       <div class="site-nav-inner">
-        <a class="site-nav-brand" href="${r}index.html">Northwatch</a>
+        <a class="site-nav-brand" href="${r}index.html" id="site-nav-brand">
+          <span id="site-nav-brand-word">NORTHWATCH</span><span class="site-nav-brand-leaf" id="site-nav-brand-leaf"><svg viewBox="315.5 95 127.8 279" xmlns="http://www.w3.org/2000/svg"><path fill="currentColor" d="M201 232l-13.3 4.4 61.4 54c4.7 13.7-1.6 17.8-5.6 25l66.6-8.4-1.6 67 13.9-.3-3.1-66.6 66.7 8c-4.1-8.7-7.8-13.3-4-27.2l61.3-51-10.7-4c-8.8-6.8 3.8-32.6 5.6-48.9 0 0-35.7 12.3-38 5.8l-9.2-17.5-32.6 35.8c-3.5.9-5-.5-5.9-3.5l15-74.8-23.8 13.4q-3.2 1.3-5.2-2.2l-23-46-23.6 47.8q-2.8 2.5-5 .7L264 130.8l13.7 74.1c-1.1 3-3.7 3.8-6.7 2.2l-31.2-35.3c-4 6.5-6.8 17.1-12.2 19.5s-23.5-4.5-35.6-7c4.2 14.8 17 39.6 9 47.7Z"/></svg></span>
+        </a>
         <div class="site-nav-links">
           ${links.map(l=>`<a href="${l.href}"${isActive(l.href)?' class="active"':''}>${l.label}</a>`).join('')}
         </div>
@@ -45,12 +47,18 @@
       height:52px;
     }
     .site-nav-brand{
-      font-size:15px;font-weight:700;letter-spacing:0.02em;
-      color:#111110;text-decoration:none;text-transform:uppercase;
-      letter-spacing:0.08em;flex-shrink:0;
-      padding:18px 0;display:inline-block;
+      font-family:'Source Serif 4',serif;
+      font-size:22.5px;font-weight:700;letter-spacing:0.02em;
+      color:#111110;text-decoration:none;text-transform:none;
+      flex-shrink:0;
+      padding:18px 0;display:inline-flex;align-items:flex-start;
     }
-    .site-nav-brand:hover{color:#c82d29;}
+    .site-nav-brand:hover #site-nav-brand-word{color:#c82d29;}
+    #site-nav-brand-leaf{
+      display:inline-block;height:0.67em;width:auto;
+      color:#c82d29;margin-left:0;
+    }
+    #site-nav-brand-leaf svg{display:block;height:100%;width:auto;}
     .site-nav-links{
       display:flex;align-items:center;gap:18px;
       overflow-x:auto;-webkit-overflow-scrolling:touch;
@@ -69,7 +77,7 @@
     @media(max-width:640px){
       .site-nav-links{gap:16px;margin-left:16px;}
       .site-nav-links a{font-size:11px;}
-      .site-nav-brand{font-size:13px;}
+      .site-nav-brand{font-size:19.5px;}
     }
   `;
 
@@ -80,4 +88,41 @@
   } else {
     document.body.insertAdjacentHTML('afterbegin', navHTML);
   }
+
+  // Flush the maple-leaf mark against the final H's ink edge (gap=0,
+  // measured empirically against real Source Serif 4 rendering — see
+  // Session 15/16 handoff for why letter-spacing math alone doesn't work).
+  function alignBrandLeaf(){
+    const word = document.getElementById('site-nav-brand-word');
+    const leaf = document.getElementById('site-nav-brand-leaf');
+    if (!word || !leaf || !word.firstChild) return;
+    const text = word.firstChild;
+    const len = text.textContent.length;
+    if (!len) return;
+    const range = document.createRange();
+    range.setStart(text, len - 1);
+    range.setEnd(text, len);
+    const hRect = range.getBoundingClientRect();
+    if (!hRect.width && !hRect.height) return;
+
+    // Match leaf height to H's exact ink height (cap-height), then flush
+    // horizontally to H's ink-right edge, then align top to H's ink-top.
+    leaf.style.height = hRect.height + 'px';
+    leaf.style.transform = 'none';
+
+    let leafRect = leaf.getBoundingClientRect();
+    const naturalGap = leafRect.left - hRect.right;
+    leaf.style.marginLeft = (-naturalGap) + 'px';
+
+    leafRect = leaf.getBoundingClientRect();
+    const topDelta = hRect.top - leafRect.top;
+    leaf.style.transform = 'translateY(' + topDelta + 'px)';
+  }
+
+  if (document.fonts && document.fonts.ready) {
+    document.fonts.ready.then(alignBrandLeaf);
+  } else {
+    setTimeout(alignBrandLeaf, 300);
+  }
+  window.addEventListener('resize', alignBrandLeaf);
 })();
